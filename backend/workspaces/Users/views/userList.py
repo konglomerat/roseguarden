@@ -40,12 +40,6 @@ class UserList(DataView):
         self.addStringProperty(name='name', label='Name')
         self.addStringProperty(name='organization', label='Organization')
         self.addSelectProperty(name='verified', selectables=['Yes', 'No'], label='Verified')
-        self.addActionProperty(name='verify',
-                               label='Verify user',
-                               action='verify',
-                               actionHandler=self.verify,
-                               icon='check',
-                               color="orange")       
         self.addActionProperty(name='lock',
                                label='Lock user',
                                action='lock',
@@ -61,7 +55,7 @@ class UserList(DataView):
                                label='Remove admin privileges',
                                action='unsetAdmin',
                                actionHandler=self.unsetAdmin,
-                               icon='flash_off')                        
+                               icon='flash_off')
 
     def getViewMetaHandler(self, user, workspace):
         meta = self.createMeta()
@@ -82,12 +76,7 @@ class UserList(DataView):
             entry.email = u.email
             entry.name = "{0} {1}".format(u.firstname, u.lastname)
             entry.organization = u.organization
-
-            if u.account_verified:
-                entry.verified = 'Yes'
-            else:
-                entry.verify = True
-                entry.verified = 'No'
+            entry.verified = 'Yes' if u.account_verified else 'No'
 
             # set entry actions
             entry.lock = False
@@ -119,12 +108,6 @@ class UserList(DataView):
         if user.admin is True:
             user_to_change = User.query.filter_by(email=entrykey).first()
             user_to_change.admin = True
-        self.emitSyncRemove(entrykey, "userList")
-
-    def verify(self, user, workspace, action, entrykey):
-        if user.admin is True:
-            user_to_change = User.query.filter_by(email=entrykey).first()
-            user_to_change.account_verified = True
         self.emitSyncRemove(entrykey, "userList")
 
     def __repr__(self):

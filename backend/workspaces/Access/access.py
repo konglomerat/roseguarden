@@ -113,9 +113,6 @@ def is_user_budget_sufficient(user):
 
 def has_user_access_to_space(user, node):
 
-    if user.account_verified is False:
-        return False, "User account not verified"
-
     if user.access is None:
         return False, "No access properties found for user"
 

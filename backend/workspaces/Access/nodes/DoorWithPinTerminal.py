@@ -55,18 +55,13 @@ class DoorWithPinTerminal(NodeClass):
     def handleNodeActionRequest(self, node, action, header):
         logManager.info("handleNodeActionRequest for {}".format(self.name))
         action_name = action['action']
-        public_key = ""
-        if 'public_key' in action:
-            public_key = action['public_key']
-
         if action_name == "requestNodeUpdate":
             return [{}]
         elif action_name == "requestUserInfo":
-            node_action = UpdateUserInfoAction.generate(
-                userManager.get_user_by_authenticator(action['auth_key'], public_key))
+            node_action = UpdateUserInfoAction.generate(userManager.getUserByAuthenticator(action['auth_key']))
             return [node_action]
         elif action_name == "requestUserAccess":
-            user = userManager.get_user_by_authenticator(action['auth_key'], public_key)
+            user = userManager.getUserByAuthenticator(action['auth_key'])
             if user is None:
                 return [DenyAccessAction.generate("Access denied", "")]
 
@@ -96,10 +91,10 @@ class DoorWithPinTerminal(NodeClass):
 
             return [GrandAccessAction.generate(user)]
         elif action_name == "requestAssignCode":
-            if userManager.checkUserAuthenticatorExists(action['auth_key'], public_key) is True:
+            if userManager.checkUserAuthenticatorExists(action['auth_key']) is True:
                 node_action = UpdateAssignInfoAction.generate("", False)
             else:
-                code = userManager.createUserAuthenticatorRequest(action['auth_key'], public_key, AuthenticatorType.USER,
+                code = userManager.createUserAuthenticatorRequest(action['auth_key'], AuthenticatorType.USER,
                                                                   AuthenticatorValidityType.ONCE,
                                                                   AuthenticatorSendBy.NODE, self.identity['nodename'])
                 node_action = UpdateAssignInfoAction.generate(code, True)

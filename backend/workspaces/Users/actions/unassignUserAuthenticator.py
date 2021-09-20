@@ -64,7 +64,7 @@ class UnassignUserAuthentictor(Action):
                     'message': "Failed to unassign authenticator."
                 }
 
-        user_to_unassign.resetAuthenticatorHash()
+        user_to_unassign.resetAuthenticator()
         user_to_unassign.authenticator_status = UserAuthenticatorStatus.UNSET
 
         return 'success', [notification_action], {'succeed': True, 'message': "Assign successful"}

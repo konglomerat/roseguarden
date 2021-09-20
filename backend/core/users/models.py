@@ -103,7 +103,7 @@ class User(db.Model):
         self._authenticator_hash = bcrypt.generate_password_hash(plaintext_authenticator)
 
     @hybrid_method
-    def resetAuthenticatorHash(self):
+    def resetAuthenticator(self):
         self._authenticator_hash = None
 
     @hybrid_method

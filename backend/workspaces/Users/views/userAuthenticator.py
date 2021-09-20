@@ -23,7 +23,6 @@ __license__ = "GPLv3"
 from core.workspaces.workspace import Workspace
 from core.workspaces.dataView import DataView
 from core.users.enum import UserAuthenticatorStatus
-from core.users import userManager
 from core.users.models import User
 from core.common.deface import deface_string_end
 """ A view contaning a list of all user authenticator
@@ -42,9 +41,7 @@ class AuthenticatorList(DataView):
         self.addBooleanProperty(name='verified', label='Verified', hide=True)
         self.addBooleanProperty(name='locked', label='Locked', hide=True)
         self.addStringProperty(name='auth_status', label='Auth. status')
-        self.addStringProperty(name='cashed', label='Auth. Cached')
-        self.addStringProperty(name='hash', label='Private key hash')
-        self.addStringProperty(name='public_key', label='Public key')
+        self.addStringProperty(name='hash', label='Auth. hash')
         self.addDatetimeProperty(name="change_date", label='Last change')
         self.addActionProperty(name='lock',
                                label='Lock auth.',
@@ -77,12 +74,6 @@ class AuthenticatorList(DataView):
 
             entry.verified = u.account_verified
             entry.locked = u.account_locked
-
-            if u.email in userManager.user_authenticator_cache.values():
-                entry.cashed = "Yes"
-            else:
-                entry.cashed = "No"
-
             if u.account_verified:
                 entry.status = 'Verified'
                 if u.account_locked:
@@ -92,7 +83,6 @@ class AuthenticatorList(DataView):
                 if u.account_locked:
                     entry.status = 'Not verified and locked'
 
-            entry.public_key = u.authenticator_public_key
             entry.auth_status = str(u.authenticator_status.value)
             entry.change_date = u.authenticator_changed_date.format()
 
@@ -105,7 +95,7 @@ class AuthenticatorList(DataView):
     def lockHandler(self, user, workspace, action, entrykey):
         user = User.query.filter_by(email=entrykey).first()
         user.authenticator_status = UserAuthenticatorStatus.LOCKED
-        user.resetAuthenticatorHash()
+        user.resetAuthenticator()
         self.emitSyncCreate(entrykey, "userAuthenticatorList")
 
     # Handler for a request to create a new view entry

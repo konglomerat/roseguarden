@@ -108,19 +108,6 @@ def create_devEnv(app, db, clean=True):
         data = {'username': a.firstname + " " + a.lastname}
         send_message(a, "Welcome", usersWorkspace, 'welcome.message', data, 'Roseguarden')
 
-    uva = User.query.filter_by(email='unverified@fabba.space').first()
-    if uva is None:
-        uva = User(email='unverified@fabba.space', password='test1234', isAdmin=True)
-        uva.firstname = "Test"
-        uva.lastname = "Unverifed"
-        uva.organization = "Konglomerat"
-        uva.account_verified = False
-        uva.pin = "123456"
-        workspaceManager.triggerWorkspaceHooks(WorkspaceHooks.CREATEUSER, user=uva)
-        db.session.add(uva)
-        data = {'username': uva.firstname + " " + uva.lastname}
-        send_message(uva, "Welcome", usersWorkspace, 'welcome.message', data, 'Roseguarden')
-
     node_ident = {
         "nodename": "Door 1",
         "classname": "Door",

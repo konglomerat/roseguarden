@@ -75,7 +75,6 @@ class AssignUserAuthentictor(Action):
                 }
 
         user_to_assign.setAuthenticatorHash(authenticator.authenticator)
-        user_to_assign.authenticator_public_key = authenticator.authenticator_public_key
         user_to_assign.authenticator_status = UserAuthenticatorStatus.VALID
 
         return 'success', [notification_action], {'succeed': True, 'message': "Assign successful"}

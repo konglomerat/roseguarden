@@ -4,7 +4,7 @@ from core import create_app, db
 from testEnv import create_testEnv
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def base_setup():
     """
     This function prepares and destruct the flask application and the database

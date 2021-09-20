@@ -35,18 +35,6 @@
           :items="userAuthenticators"
           :search="userSearch"
         >
-          <template v-slot:item.public_key="{ item }">
-            <div align="center">
-              <v-tooltip v-if="item.public_key" bottom>
-                <template v-slot:activator="{ on }">
-                  <v-btn :color="item.public_key.startsWith('SERVERGENERATED') ? 'warning': 'grey darken-3'" fab  dark v-on="on" x-small>
-                    <v-icon>fingerprint</v-icon> 
-                  </v-btn>
-                </template>              
-                <span>{{item.public_key}}</span>
-              </v-tooltip>
-            </div>
-          </template>        
           <template v-slot:item.actions="{ item }">
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
