@@ -20,25 +20,23 @@ __contact__ = "roseguarden@fabba.space"
 __credits__ = []
 __license__ = "GPLv3"
 
-from core import db
 from sqlalchemy_utils import ArrowType
+from sqlalchemy import Column, Integer, String
 import arrow
-
+from app.db.base_class import Base
 from core.common.jsonDict import JsonDict
 
 
-class JobExecute(db.Model):
-    __tablename__ = 'jobs'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), default="")
-    workspace = db.Column(db.String(120), default="")
-    job = db.Column(db.String(120), default="")
-    state = db.Column(db.String(120), default="")
-    triggered_on = db.Column(ArrowType, default=arrow.utcnow)
-    triggered_by = db.Column(db.String(120), default="")
-    lifetime = db.Column(db.Integer, default=0)
-    args = db.Column(JsonDict)
-    results = db.Column(JsonDict)
+class JobExecute(Base):
+    name = Column(String(120), default="")
+    workspace = Column(String(120), default="")
+    job = Column(String(120), default="")
+    state = Column(String(120), default="")
+    triggered_on = Column(ArrowType, default=arrow.utcnow)
+    triggered_by = Column(String(120), default="")
+    lifetime = Column(Integer, default=0)
+    args = Column(JsonDict)
+    results = Column(JsonDict)
 
     def __repr__(self):
-        return '<Job {} for {}/{} >'.format(self.name, self.workspace, self.job)
+        return "<Job {} for {}/{} >".format(self.name, self.workspace, self.job)
