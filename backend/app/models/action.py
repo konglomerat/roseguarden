@@ -20,26 +20,31 @@ __contact__ = "roseguarden@fabba.space"
 __credits__ = []
 __license__ = "GPLv3"
 
-from core import db
+# from core import db
 from sqlalchemy_utils import ArrowType
 import arrow
+
+from sqlalchemy import VARCHAR, CheckConstraint, Column, String, Integer, Boolean
+
+from app.db.base_class import Base
 
 from core.common.jsonDict import JsonDict
 
 
-class ActionLink(db.Model):
-    __tablename__ = 'actionlinks'
+class ActionLink(Base):
+    # __tablename__ = 'actionlinks'
     # nonvolatile data stored in the db
-    id = db.Column(db.Integer, primary_key=True)
-    hash = db.Column(db.String(128), default="")
-    workspace = db.Column(db.String(120), default="")
-    need_login = db.Column(db.Boolean, default=True)
-    action = db.Column(db.String(120), default="")
-    action_data_json = db.Column(JsonDict)
-    run_only_once = db.Column(db.Boolean, default=True)
-    expire_on_date = db.Column(ArrowType, default=arrow.utcnow)
-    redirect_to = db.Column(db.String(255), default="")
+    # id = Column(Integer, primary_key=True)  # < will created with Base class
+    hash = Column(String(128), default="")
+    workspace = Column(String(120), default="")
+    need_login = Column(Boolean, default=True)
+    action = Column(String(120), default="")
+    action_data_json = Column(JsonDict)
+    run_only_once = Column(Boolean, default=True)
+    expire_on_date = Column(ArrowType, default=arrow.utcnow)
+    redirect_to = Column(String(255), default="")
 
     def __repr__(self):
-        return '<ActionLink {} for {}/{} [expires on {}] >'.format(self.link, self.workspace, self.action,
-                                                                   self.expire_on_date)
+        return "<ActionLink {} for {}/{} [expires on {}] >".format(
+            self.link, self.workspace, self.action, self.expire_on_date
+        )
