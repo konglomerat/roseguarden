@@ -24,7 +24,7 @@ __license__ = "GPLv3"
 from sqlalchemy_utils import ArrowType
 import arrow
 
-from sqlalchemy import VARCHAR, CheckConstraint, Column, String, Integer, Boolean
+from sqlalchemy import Column, String, Boolean
 
 from app.db.base_class import Base
 
@@ -32,9 +32,7 @@ from core.common.jsonDict import JsonDict
 
 
 class ActionLink(Base):
-    # __tablename__ = 'actionlinks'
     # nonvolatile data stored in the db
-    # id = Column(Integer, primary_key=True)  # < will created with Base class
     hash = Column(String(128), default="")
     workspace = Column(String(120), default="")
     need_login = Column(Boolean, default=True)
