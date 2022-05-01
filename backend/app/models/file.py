@@ -20,7 +20,6 @@ __contact__ = "roseguarden@fabba.space"
 __credits__ = []
 __license__ = "GPLv3"
 
-# from core import db
 from sqlalchemy_utils import ArrowType
 import arrow
 import enum
@@ -36,8 +35,6 @@ association_table_user_filepermissiongroup = Table(
 
 
 class FilePermissionGroup(Base):
-    # __tablename__ = "filepermissiongroups"
-    # id = Column(Integer, primary_key=True)
     name = Column(String(64), default="")
     ldap_group = Column(String(64), default="")
     ldap = Column(Boolean, default=False)
@@ -66,8 +63,6 @@ class FilePermissionAccess(enum.IntFlag):
 
 
 class FilePermission(Base):
-    # __tablename__ = "filepermissions"
-    id = Column(Integer, primary_key=True)
     access = Column(Enum(FilePermissionAccess), default=FilePermissionAccess.NONE)
     groups = relationship(
         "FilePermissionGroup",
@@ -99,9 +94,7 @@ class FileStorageType(enum.IntFlag):
 
 
 class FileStorage(Base):
-    # __tablename__ = "filestorage"
     # nonvolatile data stored in the db
-    # id = Column(Integer, primary_key=True)
     path = Column(String(120), default="")
     storage_type = Column(Enum(FileStorageType))
     permissions = relationship(
@@ -116,9 +109,7 @@ class FileStorage(Base):
 
 
 class GeneratedFile(Base):
-    # __tablename__ = "generatedfile"
     # nonvolatile data stored in the db
-    # id = Column(Integer, primary_key=True)
     path = Column(String(120), default="")
     generated_on_date = Column(ArrowType, default=arrow.utcnow)
     expire_on_date = Column(ArrowType, default=arrow.utcnow)
@@ -133,9 +124,7 @@ class GeneratedFile(Base):
 
 
 class UploadedFile(Base):
-    # __tablename__ = "uploadedfile"
     # nonvolatile data stored in the db
-    # id = Column(Integer, primary_key=True)
     path = Column(String(120), default="")
     generated_on_date = Column(ArrowType, default=arrow.utcnow)
     expire_on_date = Column(ArrowType, default=arrow.utcnow)
