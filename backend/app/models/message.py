@@ -21,22 +21,23 @@ __credits__ = []
 __license__ = "GPLv3"
 
 import arrow
-from core import db
 from sqlalchemy_utils import ArrowType
+from app.db.base_class import Base
+from sqlalchemy import Column, String, ForeignKey, UnicodeText, Boolean
+from sqlalchemy.orm import relationship, backref
 
 
-class Message(db.Model):
-    __tablename__ = 'messages'
+class Message(Base):
     # nonvolatile data stored in the db
-    id = db.Column(db.Integer, primary_key=True)
-    recipient_email = db.Column(db.String, db.ForeignKey('users.email'))
-    recipient = db.relationship("User", backref=db.backref("messages", uselist=True))
-    sender_name = db.Column(db.String(120), default="")
-    subject = db.Column(db.String(120), default="")
-    message_html = db.Column(db.UnicodeText(), default="")
-    message_send_date = db.Column(ArrowType, default=arrow.utcnow)
-    message_read = db.Column(db.Boolean, default=False)
+    recipient_email = Column(String, ForeignKey("users.email"))
+    recipient = relationship("User", backref=backref("messages", uselist=True))
+    sender_name = Column(String(120), default="")
+    subject = Column(String(120), default="")
+    message_html = Column(UnicodeText(), default="")
+    message_send_date = Column(ArrowType, default=arrow.utcnow)
+    message_read = Column(Boolean, default=False)
 
     def __repr__(self):
-        return '<Message from {} to {} with subject "{}" [{}] >'.format(self.sender_name, self.recipient_name,
-                                                                        self.subject, self.message_send_date)
+        return '<Message from {} to {} with subject "{}" [{}] >'.format(
+            self.sender_name, self.recipient_name, self.subject, self.message_send_date
+        )
