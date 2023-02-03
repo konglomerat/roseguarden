@@ -198,6 +198,13 @@ export default {
 };
 </script>
 
+
+<style lang="stylus">
+  .v-card {
+    z-index: 200;
+  }
+</style>
+
 <style lang="stylus" scoped>
 >>> .error {
   background-color: #FF5252 !important;
