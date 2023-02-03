@@ -36,3 +36,11 @@ jobs:
           remote_user: roseguardenadmin
           remote_port: 10123
           remote_key: ${{ secrets.DEPLOY_KEY }}
+      - name: pip install on server 🦾
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: 185.170.113.111
+          username: roseguardenadmin
+          key: ${{ secrets.DEPLOY_KEY }}
+          port: 10123
+          script: cd roseguarden-testdeploy/ && pip install
