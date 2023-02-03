@@ -71,6 +71,7 @@
             label="E-Mail"
             type="email"
             v-model="model.username"
+            color="info"
             :rules="[rules.email, rules.required]"
           ></v-text-field>
           <v-text-field
@@ -79,6 +80,7 @@
             label="Passwort"
             id="password"
             type="password"
+            color="info"
             v-model="model.password"
             :rules="[rules.required]"
           ></v-text-field>

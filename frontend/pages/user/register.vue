@@ -7,7 +7,7 @@
             <v-card class="elevation-1 pa-3">
               <v-card-text>
                 <div class="layout column align-center">
-                  <h2 class="flex my-4 primary--text">Registrieren</h2>
+                  <h2 class="flex my-4 primary--text info--text">Registrieren</h2>
                 </div>
                 <v-alert type="info">
                   <p>
@@ -25,6 +25,7 @@
                   name="login"
                   label="E-Mail: *"
                   type="text"
+                  color="info"
                   v-model="model.email"
                   required
                   :rules="rules.email"
@@ -38,6 +39,7 @@
                       label="Passwort: *"
                       id="password"
                       type="password"
+                      color="info"
                       v-model="model.password"
                       required
                       :rules="rules.password"
@@ -50,6 +52,7 @@
                         name="password"
                         label="Passwort wiederholen: *"
                         id="password_verification"
+                        color="info"
                         type="password"
                         v-model="model.password_verification"
                         required
@@ -66,6 +69,7 @@
                         name="login"
                         label="Vorname: *"
                         type="text"
+                        color="info"
                         v-model="model.firstname"
                         required
                         :rules="[rules.required]"
@@ -77,6 +81,7 @@
                         append-icon="people"
                         name="login"
                         label="Nachname: *"
+                        color="info"
                         type="text"
                         v-model="model.lastname"
                         required
@@ -94,6 +99,7 @@
                         label="Gruppenzugehörigkeit:"
                         hint="(nur für Gruppenmitglieder relevant)"
                         persistent-hint
+                        color="info"
                         type="text"
                         v-model="model.organization"
                       >
@@ -104,6 +110,7 @@
                         append-icon="phone"
                         label="Telefonnummer:"
                         hint="(optional)"
+                        color="info"
                         persistent-hint
                         name="phone"
                         v-model="model.phone"
@@ -151,7 +158,7 @@
                 </v-row>
                 <v-row justify="end">
                   <v-col cols="12" class="text-right">
-                    <v-btn color="secondary" @click="cancel"> Abbrechen </v-btn>
+                    <v-btn color="secondary" class="black--text" @click="cancel"> Abbrechen </v-btn>
                     <v-btn
                       color="primary"
                       class="ml-1"

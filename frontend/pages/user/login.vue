@@ -10,7 +10,7 @@
                   <!---
                   <img src="../static/konglo_logo.png" alt="Roseguarden logo" width="120" height="120">
                   ---->
-                  <h2 class="flex primary--text">Anmelden</h2>
+                  <h2 class="flex info--text">Anmelden</h2>
                 </div>
                 <v-form v-model="valid">
                   <v-text-field
@@ -18,6 +18,7 @@
                     name="login"
                     label="Email"
                     type="email"
+                    color="info"
                     v-model="model.username"
                     :rules="[rules.email, rules.required]"
                   ></v-text-field>
@@ -26,6 +27,7 @@
                     name="password"
                     label="Password"
                     id="password"
+                    color="info"
                     type="password"
                     v-model="model.password"
                     :rules="[rules.required]"
@@ -38,7 +40,7 @@
                     dense
                     text
                     small
-                    color="primary"
+                    color="info"
                     href="/user/lostpassword"
                     target="_blank"
                     >Passwort vergessen?</v-btn
@@ -47,13 +49,13 @@
                     dense
                     text
                     small
-                    color="primary"
+                    color="info"
                     href="/user/resendverificationmail"
                     target="_blank"
                     >Verifizierung nochmal senden?</v-btn
                   >
                 </v-row>
-                <v-btn color="secondary" @click="cancel">Zurück</v-btn>
+                <v-btn color="secondary" class="black--text" @click="cancel">Zurück</v-btn>
                 <v-btn
                   color="primary"
                   @click="login"

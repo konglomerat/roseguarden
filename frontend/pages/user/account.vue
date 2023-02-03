@@ -99,12 +99,12 @@
         <v-row dense>
           <v-col cols="1" />
           <v-col cols="10">
-            <v-subheader>Altes Passwort:</v-subheader>
             <v-text-field
               append-icon="lock_open"
               :type="showOld ? 'text' : 'password'"
               name="oldpassword"
               label="Altes Passwort"
+              color="info"
               dense
               class="input-group--focused"
               :rules="[rules.required]"
@@ -115,11 +115,11 @@
         <v-row dense>
           <v-col cols="1" />
           <v-col cols="5">
-            <v-subheader>Neues Passwort:</v-subheader>
             <v-text-field
               append-icon="lock"
               name="password"
               label="Neues Passwort"
+              color="info"
               id="password"
               type="password"
               v-model="password"
@@ -132,11 +132,11 @@
             </v-text-field>
           </v-col>
           <v-col cols="5">
-            <v-subheader>Passwort wiederholen:</v-subheader>
             <v-text-field
               append-icon="lock_open"
               name="password_verification"
               label="Passwort wiederholen"
+              color="info"
               id="password_verification"
               type="password"
               v-model="password_verification"
