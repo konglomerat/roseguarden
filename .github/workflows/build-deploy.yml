@@ -43,4 +43,4 @@ jobs:
           username: roseguardenadmin
           key: ${{ secrets.DEPLOY_KEY }}
           port: 10123
-          script: cd roseguarden-testdeploy/ && pip install
+          script: cd roseguarden-testdeploy/ && pip install -r requirements.txt
