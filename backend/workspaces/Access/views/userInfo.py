@@ -29,6 +29,7 @@ from workspaces.Access.helpers import (
     get_user_accessable_weekdays_string,
     get_accessable_spaces_for_user_string,
     get_access_info_string,
+    get_access_budget_short_string
 )
 
 """ A View contaning the user info
@@ -45,7 +46,7 @@ class AccessUserInfo(DataView):
         self.addStringProperty(name="access_group_info")
         self.addStringProperty(name="access_type")
         self.addStringProperty(name="access_type_info")
-        self.addIntegerProperty(name="access_budget")
+        self.addIntegerProperty(name="access_budget_short")
         self.addDateProperty(name="access_valid_start_date")
         self.addDateProperty(name="access_valid_end_date")
         self.addTimeProperty(name="access_valid_start_time")
@@ -77,6 +78,7 @@ class AccessUserInfo(DataView):
             entry.access_to_spaces = get_accessable_spaces_for_user_string(user.spaceaccess_accessgroup)
             entry.access_valid_start_time = user.spaceaccess_accessgroup.daily_access_start_time.format("HH:mm")
             entry.access_valid_end_time = user.spaceaccess_accessgroup.daily_access_end_time.format("HH:mm")
+            entry.access_budget_short = get_access_budget_short_string(user.spaceaccess_accessgroup, user.access)
         else:
             if user.spaceaccess_accessgroup is not None:
                 entry.access_group = user.spaceaccess_accessgroup.name
@@ -92,6 +94,7 @@ class AccessUserInfo(DataView):
             entry.access_valid_end_time = "-"
             entry.access_valid_start_date = "-"
             entry.access_valid_end_date = "-"
+            entry.access_budget_short = "No access"
         # add single entry
         return entry.extract()
 

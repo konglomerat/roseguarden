@@ -69,6 +69,28 @@ def get_user_accessable_weekdays_string(space_access_group):
     return weekday_string
 
 
+def get_access_budget_short_string(user_space_access_group, user_space_access_properties):
+    if user_space_access_group.access_type is SpaceAccessType.NO_ACCESS:
+        return "No access at the moment."
+    if user_space_access_group.access_type is SpaceAccessType.UNLIMITED:
+        return "Unlimited access."
+    if user_space_access_group.access_type is SpaceAccessType.USER_BUDGET:
+        return f"{user_space_access_properties.access_budget} days left."
+    if user_space_access_group.access_type is SpaceAccessType.GROUP_BUDGET:
+        return f"{user_space_access_group.group_budget} days left."
+    if user_space_access_group.access_type is SpaceAccessType.AUTO_RECHARGED_USER_BUDGET:
+        return (
+            f"{user_space_access_properties.access_budget} of "
+            f"{user_space_access_group.access_recharge_budget_amount} days left."
+        )
+
+    if user_space_access_group.access_type is SpaceAccessType.AUTO_RECHARGED_GROUP_BUDGET:
+        return (
+            f"{user_space_access_group.group_budget} of "
+            f"{user_space_access_group.access_recharge_budget_amount} days left."
+        )
+
+
 def get_access_info_string(user_space_access_group, user_space_access_properties):
     if user_space_access_group.access_type is SpaceAccessType.NO_ACCESS:
         return "You don't have access at the moment"
@@ -76,32 +98,32 @@ def get_access_info_string(user_space_access_group, user_space_access_properties
         return f"You have access on unlimited {user_space_access_group.entry_accounting_type.value}"
     if user_space_access_group.access_type is SpaceAccessType.USER_BUDGET:
         return (
-            f"You have a personal access budget of {user_space_access_properties.access_budget} "
-            f"{user_space_access_group.entry_accounting_type.value}"
+            f"You have a personal budget of {user_space_access_properties.access_budget} "
+            f"{user_space_access_group.entry_accounting_type.value} access."
         )
     if user_space_access_group.access_type is SpaceAccessType.GROUP_BUDGET:
         return (
-            f"You have an access budget of {user_space_access_group.group_budget} "
-            f"{user_space_access_group.entry_accounting_type.value} "
+            f"You have a group budget of {user_space_access_group.group_budget} "
+            f"{user_space_access_group.entry_accounting_type.value} access."
             f"within your group '{user_space_access_group.name}'"
         )
     if user_space_access_group.access_type is SpaceAccessType.AUTO_RECHARGED_USER_BUDGET:
         return (
-            f"You have a personal access budget of {user_space_access_properties.access_budget} "
-            f"{user_space_access_group.entry_accounting_type.value} "
-            f"getting recharged with {user_space_access_group.access_recharge_budget_amount} "
-            f"{user_space_access_group.entry_accounting_type.value} "
-            f"every {user_space_access_group.access_recharge_budget_every_periods} "
+            f"You have a personal budget of {user_space_access_properties.access_budget} "
+            f"{user_space_access_group.entry_accounting_type.value}. "
+            f"You get recharged with {user_space_access_group.access_recharge_budget_amount} "
+            f" new {user_space_access_group.entry_accounting_type.value} access "
+            f"after every {user_space_access_group.access_recharge_budget_every_periods} "
             f"{user_space_access_group.access_recharge_budget_period.value.lower()}"
         )
     if user_space_access_group.access_type is SpaceAccessType.AUTO_RECHARGED_GROUP_BUDGET:
         return (
-            f"You have an access budget of {user_space_access_group.group_budget} "
-            f"{user_space_access_group.entry_accounting_type.value} "
-            f"within your group '{user_space_access_group.name}' "
-            f"getting recharged with {user_space_access_group.access_recharge_budget_amount} "
-            f"{user_space_access_group.entry_accounting_type.value} "
-            f"every {user_space_access_group.access_recharge_budget_every_periods} "
+            f"You have a group budget of {user_space_access_group.group_budget} "
+            f"{user_space_access_group.entry_accounting_type.value} access "
+            f"within your group '{user_space_access_group.name}'. "
+            f"You get recharged with {user_space_access_group.access_recharge_budget_amount} "
+            f" new {user_space_access_group.entry_accounting_type.value} access "
+            f"after every {user_space_access_group.access_recharge_budget_every_periods} "
             f"{user_space_access_group.access_recharge_budget_period.value.lower()}"
         )
 

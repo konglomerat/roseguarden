@@ -14,6 +14,33 @@
         ></v-progress-linear>
       </v-row>
       <v-row dense>
+        <v-col cols="2" />
+        <v-col cols="8" align="center" justify="center">        
+          <v-alert color="info"  dark shaped class="text-center" style="text-align: center; width: 100%;">
+            <div style="font-weight: 700;">
+            {{accountdata.access_budget_short}}
+            </div>
+          </v-alert>
+        </v-col>
+        <v-col cols="2" />
+      </v-row>
+      <v-row dense>
+        <v-col cols="1" />
+        <v-col cols="10">
+          <v-subheader>Access info:</v-subheader>
+          <v-text-field
+            label="Access info"
+            value="Max"
+            v-model="accountdata.access_type_info"
+            :loading="loading"
+            hide-details
+            readonly
+            solo
+            dense
+          ></v-text-field>
+        </v-col>
+      </v-row>
+      <v-row dense>
         <v-col cols="1" />
         <v-col cols="3">
           <v-subheader>Access group:</v-subheader>
@@ -22,7 +49,7 @@
             v-model="accountdata.access_group"
             :loading="loading"
             hide-details
-            disabled
+            readonly
             solo
             dense
           ></v-text-field>
@@ -33,23 +60,6 @@
             label="Group desciption"
             v-model="accountdata.access_group_info"
             prepend-inner-icon="mdi-information-outline"
-            :loading="loading"
-            hide-details
-            class="gray"
-            solo
-            dense
-          ></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row dense>
-        <v-col cols="1" />
-        <v-col cols="10">
-          <v-subheader>Access info:</v-subheader>
-          <v-text-field
-            label="Access info"
-            value="Max"
-            class="gray"
-            v-model="accountdata.access_type_info"
             :loading="loading"
             hide-details
             readonly
@@ -66,7 +76,7 @@
             name="pin"
             label="Valid from"
             id="pin"
-            disabled
+            readonly
             hide-details
             solo
             dense
@@ -80,7 +90,7 @@
             name="pin_verification"
             label="Expires at"
             id="pin_verification"
-            disabled
+            readonly
             hide-details
             solo
             dense
@@ -97,7 +107,7 @@
             label="Weekdays"
             v-model="accountdata.access_on_days"
             :loading="loading"
-            disabled
+            readonly
             hide-details
             solo
             dense
@@ -112,7 +122,7 @@
             name="pin"
             label="Opening at"
             id="pin"
-            disabled
+            readonly
             hide-details
             solo
             dense
@@ -126,7 +136,7 @@
             name="pin_verification"
             label="Closing at"
             id="pin_verification"
-            disabled
+            readonly
             hide-details
             solo
             dense
@@ -144,7 +154,7 @@
             v-model="accountdata.access_to_spaces"
             :loading="loading"
             hide-details
-            class="gray"
+            readonly
             solo
             dense
           ></v-text-field>
@@ -159,7 +169,7 @@
             v-model="accountdata.access_updated_on_date"
             :loading="loading"
             hide-details
-            disabled
+            readonly
             solo
             dense
           ></v-text-field>
