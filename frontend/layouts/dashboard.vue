@@ -42,7 +42,7 @@
         -->
         <v-footer
           min-height="60px"
-          class="app grey darken-2 pa-3 footerclass white--text"
+          class="app grey darken-2 pa-3 footerclass white--text mt-16"
         >
           <cookie-law theme="dark-lime" buttonText="I accept">
             <div slot="message">
@@ -144,7 +144,7 @@ export default {
       {
         label: "Tutorial",
         link: "/card-usage",
-      }
+      },
     ],
     snackbar: {
       show: false,
@@ -197,13 +197,6 @@ export default {
   },
 };
 </script>
-
-
-<style lang="stylus">
-  .v-card {
-    z-index: 200;
-  }
-</style>
 
 <style lang="stylus" scoped>
 >>> .error {
