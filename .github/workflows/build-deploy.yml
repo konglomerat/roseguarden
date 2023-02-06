@@ -42,6 +42,8 @@ jobs:
           key: ${{ secrets.DEPLOY_KEY }}
           port: ${{ secrets.DEPLOY_PORT }}
           script: |
+            supervisorctl stop roseguarden 
             cd roseguarden-testdeploy/
             pip install -r requirements.txt
-            python3 --version
+            flask db upgrade
+            supervisorctl start roseguarden
