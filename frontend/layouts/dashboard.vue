@@ -42,6 +42,7 @@
         -->
         <v-footer
           min-height="60px"
+          app
           class="app grey darken-2 pa-3 footerclass white--text mt-16"
         >
           <cookie-law theme="dark-lime" buttonText="I accept">
@@ -234,6 +235,5 @@ export default {
 
 .footerclass {
   background-color: #616161;
-  z-index: 100;
 }
 </style>
