@@ -50,7 +50,7 @@ class LostPassword(Action):
         resetUser = userManager.getUser(action.username)
         if resetUser is not None:
             key = "".join(random.choices(string.ascii_letters + string.digits, k=96))
-            resetUser.password_reset_expired_date = arrow.utcnow().shift(hours=2)
+            resetUser.password_reset_expired_date = arrow.utcnow().shift(hours=72)
             resetUser.password_reset_hash = key
             link = ref + "/user/resetpassword" + "?key=" + key
             data = {
