@@ -7,17 +7,22 @@
       <v-card-text dense>
         <v-alert type="info">
           <p>
-            Für Fehler und Optimierungsideen kannst du gern
+            Für Fehler und Optimierungsideen kannst du gern auf
             <a
-            href="https://gitreports.com/issue/konglomerat/roseguarden"
-            target="_blank"
+              href="https://github.com/konglomerat/roseguarden/issues/new/choose"
+              target="_blank"
             >
-            Hier
+              github
             </a>
-            ein Ticket erstellen.
-            <br>
+            (Account benötigt) ein Ticket erstellen oder uns eine E-Mail an:
+            <a href="mailto:rosenritter@listen.konglomerat.org"
+              >rosenritter@listen.konglomerat.org</a
+            >
+            senden.
+            <br />
             Für Support-Anfragen schreib uns einfach eine E-Mail an:
-            <a href="mailto:zugang@konglomerat.org">zugang@konglomerat.org</a> .
+            <a href="mailto:zugang@konglomerat.org">zugang@konglomerat.org</a>
+            .
           </p>
         </v-alert>
       </v-card-text>
@@ -58,5 +63,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
