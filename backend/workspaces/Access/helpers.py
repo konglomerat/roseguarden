@@ -73,21 +73,21 @@ def get_access_budget_short_string(user_space_access_group, user_space_access_pr
     if user_space_access_group.access_type is SpaceAccessType.NO_ACCESS:
         return "No access at the moment."
     if user_space_access_group.access_type is SpaceAccessType.UNLIMITED:
-        return "Unlimited access."
+        return "Unlimited days of access."
     if user_space_access_group.access_type is SpaceAccessType.USER_BUDGET:
-        return f"{user_space_access_properties.access_budget} days left."
+        return f"{user_space_access_properties.access_budget} days of access left."
     if user_space_access_group.access_type is SpaceAccessType.GROUP_BUDGET:
-        return f"{user_space_access_group.group_budget} days left."
+        return f"{user_space_access_group.group_budget} days of access left."
     if user_space_access_group.access_type is SpaceAccessType.AUTO_RECHARGED_USER_BUDGET:
         return (
             f"{user_space_access_properties.access_budget} of "
-            f"{user_space_access_group.access_recharge_budget_amount} days left."
+            f"{user_space_access_group.access_recharge_budget_amount} days of access left."
         )
 
     if user_space_access_group.access_type is SpaceAccessType.AUTO_RECHARGED_GROUP_BUDGET:
         return (
             f"{user_space_access_group.group_budget} of "
-            f"{user_space_access_group.access_recharge_budget_amount} days left."
+            f"{user_space_access_group.access_recharge_budget_amount} days of access left."
         )
 
 
