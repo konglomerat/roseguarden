@@ -29,7 +29,7 @@ from workspaces.Access.helpers import (
     get_user_accessable_weekdays_string,
     get_accessable_spaces_for_user_string,
     get_access_info_string,
-    get_access_budget_short_string
+    get_access_budget_short_string,
 )
 
 """ A View contaning the user info
