@@ -43,7 +43,7 @@ jobs:
           port: ${{ secrets.DEPLOY_PORT }}
           script: |
             supervisorctl stop roseguarden 
-            cd roseguarden-testdeploy/
+            cd roseguarden/
             pip install -r requirements.txt
             flask db upgrade
             supervisorctl start roseguarden
