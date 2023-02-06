@@ -47,12 +47,7 @@ class ResendVerificationRequest(Action):
         verifyUser = userManager.getUser(action.username)
         if verifyUser is not None:
             link = generateActionLink(
-                workspace,
-                "verifyUser",
-                {"email": verifyUser.email},
-                "user/login",
-                True,
-                False,
+                workspace, "verifyUser", {"email": verifyUser.email}, "user/login", True, False, 24 * 3
             )
             data = {
                 "username": verifyUser.firstname + " " + verifyUser.lastname,

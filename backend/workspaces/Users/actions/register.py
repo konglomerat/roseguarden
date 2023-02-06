@@ -42,12 +42,7 @@ class Register(Action):
         else:
             u = userManager.registerUser(userdata)
             link = generateActionLink(
-                workspace,
-                "verifyUser",
-                {"email": userdata["email"]},
-                "user/login",
-                True,
-                False,
+                workspace, "verifyUser", {"email": userdata["email"]}, "user/login", True, False, 24 * 7
             )
             data = {
                 "username": userdata["firstname"] + " " + userdata["lastname"],
