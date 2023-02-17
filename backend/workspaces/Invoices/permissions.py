@@ -24,5 +24,6 @@ from core.workspaces.permission import Permission
 
 # Define your Permissions here
 
+
 class AdministrateInvoices(Permission):
     description = "Access to the invoice and consumption administration"
