@@ -28,7 +28,7 @@ from core.users.models import User
 
 
 class ConsumptionLog(db.Model):
-    __tablename__ = 'invoice_consumption_log'
+    __tablename__ = "invoice_consumption_log"
     id = db.Column(db.Integer, primary_key=True, index=True, autoincrement=True, unique=True)
     entry_as_guest = db.Column(db.Boolean, default=None)
     linked_user_id = db.Column(db.Integer, db.ForeignKey(User.id, ondelete="SET NULL"))

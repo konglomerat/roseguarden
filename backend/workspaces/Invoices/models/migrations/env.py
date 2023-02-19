@@ -13,9 +13,9 @@ config = context.config
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
 fileConfig(config.config_file_name)
-logger = logging.getLogger('alembic.env')
+logger = logging.getLogger("alembic.env")
 
-al_logger = logging.getLogger('alembic.runtime.migration')
+al_logger = logging.getLogger("alembic.runtime.migration")
 al_logger.setLevel(logging.ERROR)
 
 # add your model's MetaData object here
@@ -36,7 +36,7 @@ sys.path.append(str(file.parents[2]))
 logger.info(f"cwd {os.getcwd()} {top} {root} {file.parents[2]}")
 
 # fixme: set this per workspace
-alembic_datatable_name = 'migration_version_' + (str(file.parents[2].name)).lower()
+alembic_datatable_name = "migration_version_" + (str(file.parents[2].name)).lower()
 print(alembic_datatable_name)
 from core import db
 import models
@@ -51,8 +51,8 @@ database_path = app_config["SYSTEM"].get("database_path", None)
 basedir = file.parents[4]
 
 config.set_main_option(
-            'sqlalchemy.url', database_path or os.environ.get("DATABASE_URL") or "sqlite:///" + os.path.join(basedir, "app.db")
-        )
+    "sqlalchemy.url", database_path or os.environ.get("DATABASE_URL") or "sqlite:///" + os.path.join(basedir, "app.db")
+)
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:
@@ -90,9 +90,9 @@ def include_object(obj, name, type_, reflected, compare_to):
     """
     if reflected is False:
         if type(obj) == type(compare_to):
-            logger.info(f'No changes on {name}')
+            logger.info(f"No changes on {name}")
         else:
-            logger.info(f'Changes found for {name}')
+            logger.info(f"Changes found for {name}")
         return True
     return False
 
@@ -101,10 +101,10 @@ def render_item(type_, obj, autogen_context):
     # custom render for sqalchemy_utils ChoiceType column and params
     # May be better to use: https://stackoverflow.com/questions/30132370/trouble-when-using-alembic-with-sqlalchemy-utils
     print(type(obj))
-    if type_ == 'type' and type(obj).__name__ == "IntEnum":
+    if type_ == "type" and type(obj).__name__ == "IntEnum":
         col_type = "sa.Integer(), default=0"
         return col_type
-    if type_ == 'type' and type(obj).__name__ == "IntFlag":
+    if type_ == "type" and type(obj).__name__ == "IntFlag":
         col_type = "sa.Integer(), default=0"
         return col_type
 
@@ -124,11 +124,11 @@ def run_migrations_online():
     # when there are no changes to the schema
     # reference: http://alembic.zzzcomputing.com/en/latest/cookbook.html
     def process_revision_directives(context, revision, directives):
-        if getattr(config.cmd_opts, 'autogenerate', False):
+        if getattr(config.cmd_opts, "autogenerate", False):
             script = directives[0]
             if script.upgrade_ops.is_empty():
                 directives[:] = []
-                logger.info('No changes in schema detected.')
+                logger.info("No changes in schema detected.")
 
     connectable = engine_from_config(
         config.get_section(config.config_ini_section),
