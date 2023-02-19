@@ -36,8 +36,8 @@ sys.path.append(str(file.parents[2]))
 logger.info(f"cwd {os.getcwd()} {top} {root} {file.parents[2]}")
 
 # fixme: set this per workspace
-alembic_datatable_name = 'alembic_version_invoices'
-
+alembic_datatable_name = 'migration_version_' + (str(file.parents[2].name)).lower()
+print(alembic_datatable_name)
 from core import db
 import models
 from config import configure_app, load_config
@@ -49,7 +49,6 @@ target_metadata = db.Model.metadata
 app_config = load_config("config.ini")
 database_path = app_config["SYSTEM"].get("database_path", None)
 basedir = file.parents[4]
-print("\nX:", basedir)
 
 config.set_main_option(
             'sqlalchemy.url', database_path or os.environ.get("DATABASE_URL") or "sqlite:///" + os.path.join(basedir, "app.db")
