@@ -50,4 +50,4 @@ class CreateConsumptionLog(Action):
         workspace.db.session.add(consumption_log)
 
         replyActions.append(webclientActions.NotificationAction.generate("Consumption log created", "success"))
-        return "success", replyActions
+        return "success", replyActions, {"custom": "customResponse"}
