@@ -22,7 +22,7 @@ def upgrade():
     op.create_table(
         "invoice_consumption_log",
         sa.Column("id", sa.Integer(), autoincrement=True, nullable=False),
-        sa.Column("entry_as_guest", sa.Boolean(), nullable=True),
+        sa.Column("consumed_as_guest", sa.Boolean(), nullable=True),
         sa.Column("linked_user_id", sa.Integer(), nullable=True),
         sa.Column("guest_is_member", sa.Boolean(), nullable=True),
         sa.Column("guest_email", sa.String(length=128), nullable=True),
