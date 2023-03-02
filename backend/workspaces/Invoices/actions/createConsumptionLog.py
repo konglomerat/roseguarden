@@ -39,13 +39,13 @@ class CreateConsumptionLog(Action):
         replyActions = []
 
         consumption_log = ConsumptionLog()
-        consumption_log.consumed_as_guest = True
-        consumption_log.guest_email = "konglomerat@konglomerat.org"
-        consumption_log.guest_is_member = True
-        consumption_log.service_area = "Laser"
-        consumption_log.service_name = "Cameo"
-        consumption_log.service_quantity = 42.0
-        consumption_log.service_unit = "min"
+        consumption_log.consumed_as_guest = action.get("consumedAsGuest", True)
+        consumption_log.guest_email = action.get("guestEmail", "")
+        consumption_log.guest_is_member = action.get("guestIsMember", False)
+        consumption_log.service_area = action.get("serviceAreas", "")
+        consumption_log.service_name = action.get("serviceName", "")
+        consumption_log.service_quantity = action.get("serviceQuantity", 0.0)
+        consumption_log.service_unit = action.get("serviceUnit", "")
 
         workspace.db.session.add(consumption_log)
 
