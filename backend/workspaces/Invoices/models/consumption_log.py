@@ -30,7 +30,7 @@ from core.users.models import User
 class ConsumptionLog(db.Model):
     __tablename__ = "invoice_consumption_log"
     id = db.Column(db.Integer, primary_key=True, index=True, autoincrement=True, unique=True)
-    entry_as_guest = db.Column(db.Boolean, default=None)
+    consumed_as_guest = db.Column(db.Boolean, default=None)
     linked_user_id = db.Column(db.Integer, db.ForeignKey(User.id, ondelete="SET NULL"))
     linked_user = db.relationship("User", backref="consumptions", foreign_keys=linked_user_id)
     guest_is_member = db.Column(db.Boolean, default=None)
