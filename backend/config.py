@@ -145,5 +145,4 @@ def configure_app(app, config, test):
 
     app.config["SYSTEM_ALLOW_BASIC_AUTH"] = config["DEV"].get("allow_basic_authentication", False)
 
-
     # app.config.from_pyfile('config.cfg', silent=True) # instance-folders configuration
