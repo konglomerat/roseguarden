@@ -15,3 +15,6 @@ username="your.mailserver.username.org"
 password="your.mailserver.password.org"
 tls=False
 ssl=True
+
+[DEV]
+allow_basic_authentication = False
