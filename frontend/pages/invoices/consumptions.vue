@@ -14,7 +14,8 @@
           <pre>{{userHeaders | prettyJson}}</pre>
           <br/>
           <pre>{{userData | prettyJson}}</pre>
-
+          <br/>
+          <pre>{{userActions | prettyJson}}</pre>
         </div>
       </v-card-text>
     </v-card>
