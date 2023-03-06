@@ -21,12 +21,14 @@ __credits__ = []
 __license__ = "GPLv3"
 
 from api import api_bp
-from flask import request, make_response
+from flask import request, make_response, current_app
 from flask_jwt_extended import jwt_optional, get_jwt_identity, get_raw_jwt
 from pprint import pprint
 import json
 from core import actionManager
+from api.request import get_identity_by_basic_auth, get_expire_datetime_by_raw_jwt
 import datetime
+
 
 # this module routes the action based api on e.g. .../api/v1
 # the api needs the generalized action based json-rpc form
@@ -40,11 +42,19 @@ def api_v1():
     print("call on api version v1")
     # pprint(request.json, indent=2)
     pprint(request.json, depth=2, indent=2)
-    a = get_raw_jwt()
-    expire_date = None
-    if "exp" in a:
-        expire_date = datetime.datetime.fromtimestamp(a["exp"])
-    reply = actionManager.handleActionRequest(get_jwt_identity(), expire_date, request.json)
+
+    # try to get identity by jwt
+    identity = get_jwt_identity()
+
+    # if jwt not found try to get identity by basic auth
+    if identity is None and current_app.config["SYSTEM_ALLOW_BASIC_AUTH"]:
+        identity = get_identity_by_basic_auth(request)
+
+    # try to get expire date for jwt auth
+    expire_date = get_expire_datetime_by_raw_jwt(get_raw_jwt())
+
+    # handle action
+    reply = actionManager.handleActionRequest(identity, expire_date, request.json)
     print("Send reply:")
     pprint(reply, depth=2, indent=2)
     reply = json.dumps(reply)
