@@ -85,6 +85,7 @@ def load_config(file):
     cfg_parser.add_section("LDAP")
     cfg_parser.add_section("MAIL")
     cfg_parser.add_section("SYSTEM")
+    cfg_parser.add_section("DEV")
     # read and overwrite
     cfg_parser.read(file)
     data = json.loads(json.dumps(cfg_parser._sections))
@@ -140,6 +141,8 @@ def configure_app(app, config, test):
     app.config["MAIL_PASSWORD"] = config["MAIL"].get("password", "password")
     app.config["MAIL_USE_TLS"] = config["MAIL"].get("tls", False)
     app.config["MAIL_USE_SSL"] = config["MAIL"].get("ssl", True)
-    app.config["MAIL_SENDER"] = config["MAIL"].get("sender", "test@test.com")
+    app.config["MAIL_SENDER"] = config["MAIL"].get("sender", "")
+
+    app.config["SYSTEM_ALLOW_BASIC_AUTH"] = config["DEV"].get("allow_basic_authentication", False)
 
     # app.config.from_pyfile('config.cfg', silent=True) # instance-folders configuration
