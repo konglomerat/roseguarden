@@ -2,22 +2,38 @@
   <v-container fluid>
     <v-card >
       <v-card-title>
-        <h3>Consumptions</h3>
+        <h3>
+          Consumptions
+        </h3>
+        <v-spacer></v-spacer>
+        <v-text-field
+          v-model="search"
+          append-icon="search"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
       </v-card-title>
-      <v-card-text dense>
-        <v-progress-linear
-          indeterminate
-          color="primary"
-          v-if="isUserDataLoading"
-        ></v-progress-linear>
-        <div v-else>
-          <pre>{{userHeaders | prettyJson}}</pre>
-          <br/>
-          <pre>{{userData | prettyJson}}</pre>
-          <br/>
-          <pre>{{userActions | prettyJson}}</pre>
-        </div>
-      </v-card-text>
+      <v-data-table
+        :headers="consumptionsHeaders"
+        :items="consumptionsData"
+        :items-per-page="15"
+        :loading="viewStates['invoices/consumedList'] !== 'ready'"
+        :search="search"
+        class="elevation-1"        
+      >
+        <template v-slot:item.actions="{ item }">
+          <v-tooltip bottom v-for="action in actions" v-bind:key="action.name">
+            <template v-slot:activator="{ on }">
+              <v-btn  v-if="item.hasOwnProperty(action.name)" :color="action.color" v-on="on" @click="requestViewAction('users', 'userList', action.action, item)" :disabled="!item[action.name]" fab x-small :dark="item[action.name]">
+                  <v-icon>{{action.icon}}</v-icon>
+              </v-btn>
+            </template>
+            <span>{{action.tooltip}}</span>
+          </v-tooltip>            
+        </template>
+      </v-data-table>
+
     </v-card>
   </v-container>
 </template>
@@ -46,10 +62,11 @@ export default {
   components: {},
   data: () => ({
     info: "",
-    isUserDataLoading: true,
-    userData : [],
-    userHeaders : [],
-    userActions : []
+    search: '',    
+    isConsumptionsDataLoading: true,
+    consumptionsData : [],
+    consumptionsHeaders : [],
+    consumptionsActions : []
   }),
   methods: {
     ok() {},
@@ -62,10 +79,10 @@ export default {
       }
       // updates local data for state change
       if(newValue['invoices/consumedList'] === 'ready')  {
-        this.userData = viewParser.parseEntries('invoices/consumedList', this.viewDictionary);
-        this.userHeaders = viewParser.parseHeader('invoices/consumedList', this.viewDictionary);
-        this.userActions = viewParser.parseActions('invoices/consumedList', this.viewDictionary);
-        this.isUserDataLoading = false;
+        this.consumptionsData = viewParser.parseEntries('invoices/consumedList', this.viewDictionary);
+        this.consumptionsHeaders = viewParser.parseHeader('invoices/consumedList', this.viewDictionary);
+        this.consumptionsActions = viewParser.parseActions('invoices/consumedList', this.viewDictionary);
+        this.isConsumptionsDataLoading = false;
       } 
     }
   },
