@@ -21,6 +21,8 @@ __credits__ = []
 __license__ = "GPLv3"
 
 from core import db
+from core.users.models import User
+from core.nodes.models import Node
 from sqlalchemy_utils import ArrowType
 from workspaces.Access.types import (
     SpaceAccessType,
@@ -84,6 +86,7 @@ class SpaceAccessGroup(db.Model):
     note = db.Column(db.String(120), default="")
     access_type = db.Column(db.Enum(SpaceAccessType), default=SpaceAccessType.NO_ACCESS)
     entry_accounting_type = db.Column(db.Enum(SpaceAccessEntryAccounting), default=SpaceAccessEntryAccounting.DAYS)
+    access_default_start_budget = db.Column(db.Integer, default=15)
     access_need_budget = db.Column(db.Boolean, default=False)
     access_gets_recharged = db.Column(db.Boolean, default=False)
     access_recharge_budget_amount = db.Column(db.Integer, default=15)
