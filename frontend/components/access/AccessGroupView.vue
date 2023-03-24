@@ -74,7 +74,7 @@
     <v-row dense v-if="commonSectionsVisibility">
       <v-col cols="1" />
       <v-col cols="3" height="100%">
-        <v-subheader>Expires (per default)</v-subheader>
+        <v-subheader>Expires</v-subheader>
         <v-switch
           v-model="group.expires_as_default"
           hide-details
@@ -84,7 +84,7 @@
         ></v-switch>
       </v-col>
       <v-col cols="7" align-end justify-end height="100%">
-        <v-subheader>Expires after (per default)</v-subheader>
+        <v-subheader>Expires after</v-subheader>
         <v-text-field
           v-model="group.expires_after_days_default"
           type="number"
@@ -141,7 +141,7 @@
     <v-row dense v-if="rechargeSectionsVisibility">
       <v-col cols="1" />
       <v-col cols="3" height="100%">
-        <v-subheader>Limit recharge</v-subheader>
+        <v-subheader>Limit</v-subheader>
         <v-switch
           v-model="group.recharge_budget_gets_cutoff"
           hide-details
