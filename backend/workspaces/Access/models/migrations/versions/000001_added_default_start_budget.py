@@ -9,6 +9,7 @@ from alembic import op
 import sqlalchemy as sa
 import sqlalchemy_utils
 
+# fmt: off
 
 # revision identifiers, used by Alembic.
 revision = '000001'
