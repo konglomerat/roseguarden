@@ -41,6 +41,21 @@
       </v-col>
     </v-row>
 
+    <v-row dense v-if="userBudgetVisibility">
+      <v-col cols="1" />
+      <v-col cols="10">
+        <v-subheader>Start budget</v-subheader>
+        <v-text-field
+          label="Users start budget"
+          type="number"
+          v-model="group.start_budget"
+          hide-details
+          solo
+          dense
+        ></v-text-field>
+      </v-col>
+    </v-row>
+
     <v-row dense v-if="groupBudgetVisibility">
       <v-col cols="1" />
       <v-col cols="10">
@@ -417,6 +432,20 @@ export default {
         return false;
       }
     },
+    userBudgetVisibility: function () {
+      if (this.group) {
+        if (
+          this.group.type === "User Budget" ||
+          this.group.type === "Auto-recharged user budget"
+        ) {
+          return true;
+        } else {
+          return false;
+        }
+      } else {
+        return false;
+      }
+    },    
   },
   watch: {
     open: function (newVal, oldVal) {

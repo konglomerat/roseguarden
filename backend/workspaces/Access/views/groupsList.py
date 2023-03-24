@@ -65,6 +65,7 @@ class AccessGroupsList(DataView):
         self.addBooleanProperty(name="budget_needed", label="Need budget")
         self.addBooleanProperty(name="use_group_budget", label="Accounts group budget")
         self.addIntegerProperty(name="group_budget", label="Group budget")
+        self.addIntegerProperty(name="start_budget", label="Start budget")
         self.addBooleanProperty(name="budget_gets_recharge", label="Do recharged")
         self.addIntegerProperty(name="recharge_budget_amount", label="Recharge amount")
         self.addSelectProperty(
@@ -106,6 +107,7 @@ class AccessGroupsList(DataView):
             entry.expires_after_days_default = g.access_expires_default_days
             entry.use_group_budget = do_accesstype_use_group_budget(g.access_type)
             entry.group_budget = g.group_budget
+            entry.start_budget = g.access_default_start_budget
             entry.budget_needed = needs_the_accesstype_a_budget(g.access_type)
             entry.budget_gets_recharge = do_accesstype_gets_recharge(g.access_type)
             entry.recharge_budget_amount = g.access_recharge_budget_amount
@@ -167,6 +169,8 @@ class AccessGroupsList(DataView):
             ag.access_gets_recharged = do_accesstype_gets_recharge(ag.access_type)
         if hasattr(entry, "group_budget"):
             ag.group_budget = entry.group_budget
+        if hasattr(entry, "start_budget"):
+            ag.access_default_start_budget = entry.start_budget
         if hasattr(entry, "recharge_budget_amount"):
             ag.access_recharge_budget_amount = entry.recharge_budget_amount
         if hasattr(entry, "recharge_budget_period"):

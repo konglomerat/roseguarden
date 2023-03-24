@@ -115,11 +115,12 @@ class AccessGroupsList(DataView):
         if hasattr(entry, "access_group"):
             g: SpaceAccessGroup = SpaceAccessGroup.query.filter_by(id=entry["access_group"]).first()
             u.spaceaccess_accessgroup = g
-            if (
-                g.access_type == SpaceAccessType.USER_BUDGET
-                or g.access_type == SpaceAccessType.AUTO_RECHARGED_USER_BUDGET
-            ):
-                u.budget = g.access_default_start_budget
+            if g and u.access:
+                if (
+                    g.access_type == SpaceAccessType.USER_BUDGET
+                    or g.access_type == SpaceAccessType.AUTO_RECHARGED_USER_BUDGET
+                ):
+                    u.access.access_budget = g.access_default_start_budget
         self.emitSyncUpdate(key)
 
     # Handler for a request to update a single view entry
