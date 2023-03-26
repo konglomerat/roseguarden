@@ -23,6 +23,9 @@ __license__ = "GPLv3"
 from core.jobs.job import Job
 from core.users.models import User
 from core.logs import logManager
+from workspaces.Access.types import SpaceAccessType, SpaceAccessRechargePeriod
+from workspaces.Access.models import SpaceAccessGroup
+import arrow
 
 
 class UpdateBudgetsMonthlyJob(Job):
@@ -30,12 +33,30 @@ class UpdateBudgetsMonthlyJob(Job):
     second = "0"
     minute = "0"
     hour = "1"
-    day = "1"
+    day = "*"
     disable = False
     description = "Update the account for monthly access budget users"
 
+    def needs_update(self, group):
+        now = arrow.utcnow()
+        if group.access_last_group_recharge_at is None:
+            group.access_last_group_recharge_at = now
+        else:
+            if group.access_recharge_budget_period == SpaceAccessRechargePeriod.MONTHS:
+                next_recharge_date = group.access_last_group_recharge_at.shift(
+                    days=-1, months=group.access_recharge_budget_every_periods
+                )
+                next_recharge_date = next_recharge_date.replace(day=1, hour=0, minute=0, second=1)
+                print(next_recharge_date)
+
     def run(self, **kwargs):
         logManager.info("Updated budget of all user (monthly)")
-        all_user = User.query.filter_by(account_locked=False).all()
-        for u in all_user:
-            u.budget = 10
+        all_groups = SpaceAccessGroup.query.all()
+        for g in all_groups:
+            if g.access_gets_recharged:
+                needs_update = self.needs_update(g)
+                if g.access_type == SpaceAccessType.AUTO_RECHARGED_GROUP_BUDGET:
+                    pass
+                if g.access_type == SpaceAccessType.AUTO_RECHARGED_USER_BUDGET:
+                    pass
+            print(g)

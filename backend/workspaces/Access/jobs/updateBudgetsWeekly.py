@@ -30,7 +30,7 @@ class UpdateBudgetsWeeklyJob(Job):
     second = "0"
     minute = "0"
     hour = "1"
-    day_of_week = "mon"
+    day = "*"
     disable = False
     description = "Update the account for weekly access budget users"
 
