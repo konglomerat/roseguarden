@@ -40,7 +40,10 @@ def needs_the_accesstype_a_budget(access_type: SpaceAccessType):
 
 
 def do_accesstype_gets_recharge(access_type: SpaceAccessType):
-    if access_type is SpaceAccessType.AUTO_RECHARGED_USER_BUDGET:
+    if (
+        access_type is SpaceAccessType.AUTO_RECHARGED_USER_BUDGET
+        or access_type is SpaceAccessType.AUTO_RECHARGED_GROUP_BUDGET
+    ):
         return True
     else:
         return False
