@@ -100,7 +100,7 @@ class UpdateBudgetsJob(Job):
                         u.access_last_user_recharge_at = arrow.utcnow()  # update users recharge date
                         # check for cutoff is enabled / needed
                         if g.access_recharge_budget_get_cutoff:
-                            if  u.access.access_budget > g.access_recharge_budget_cutoff_max:
+                            if u.access.access_budget > g.access_recharge_budget_cutoff_max:
                                 u.access.access_budget = g.access_recharge_budget_cutoff_max
 
                 # update groups recharge date
