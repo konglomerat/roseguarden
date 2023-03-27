@@ -44,6 +44,21 @@
     <v-row dense v-if="userBudgetVisibility">
       <v-col cols="1" />
       <v-col cols="10">
+        <v-subheader>Start budget</v-subheader>
+        <v-text-field
+          label="Users start budget"
+          type="number"
+          v-model="group.start_budget"
+          hide-details
+          solo
+          dense
+        ></v-text-field>
+      </v-col>
+    </v-row>
+
+    <v-row dense v-if="groupBudgetVisibility">
+      <v-col cols="1" />
+      <v-col cols="10">
         <v-subheader>Start budget:</v-subheader>
         <v-text-field
           label="Users start budget"
@@ -58,6 +73,7 @@
 
     <v-row dense v-if="groupBudgetVisibility">
       <v-col cols="1" />
+
       <v-col cols="10">
         <v-subheader>Actual shared group budget:</v-subheader>
         <v-text-field
