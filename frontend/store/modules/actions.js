@@ -146,9 +146,7 @@ export default {
       state.runner = runnerstate;
     },
     addActions(state, { actions, data }) {
-      console.log(actions, data)
       state.actionlist = state.actionlist.concat(actions);
-      console.log(state.actionlist)
     },
     shiftActions(state) {
       state.actionlist.shift()

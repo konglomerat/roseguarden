@@ -371,7 +371,7 @@
                             >
                                 <template v-slot:label>
                                 <span>
-                                    Bitte schickt mir eine Rechnung an die oben genannte eMail-Adresse.
+                                    Ich bin damit einverstanden, dass meine Eingaben an den Konglomerat e.V. gesendet werden.
                                 </span>
                                 </template>
                             </v-switch>
@@ -400,6 +400,7 @@
 import { mapState } from "vuex";
 import moment from 'moment';
 import * as actionBuilder from "@/api/actionBuilder";
+import axios from 'axios';
 
 export default {
   layout: "default",
@@ -436,6 +437,22 @@ export default {
   methods: {
     async validate () {
         const { valid_machine } = await this.$refs.form_machine.validate()
+    },
+    get_calculated_costs() {
+        let action = [
+        actionBuilder.newAction(
+            "invoices",
+            "calculateLaserCosts",
+        ),
+        ];
+        this.$store.dispatch("actions/emitActionRequest", action).then(response => {
+                console.log("hhjkhj", response);
+
+            if (response.success) {
+                console.log("hhjkhj", response);
+            }
+        });
+
     },
     update_data () {
         window.scrollTo(0,0);
@@ -475,6 +492,7 @@ export default {
   },
   mounted() {
     let redirect = "no";
+    this.get_calculated_costs();
     if (this.$route.query.hasOwnProperty("redirect")) {
       redirect = this.$route.query.redirect;
     }
