@@ -69,15 +69,15 @@
                 <v-card-text>
                     <div class="layout column">
                     <h2 class="info--text">Zählerstand zum Beginn?</h2>
-                    <v-form v-model="valid_machine" fast-fail ref="form_machine">
+
                         Bitte folgendes Format verwenden: HHHH:MM:SS
                         <v-text-field
-                            :value="counter_at_start"
+                            v-model="counter_at_start"
                             :rules="[rules.counter]"
                             prepend-icon="mdi-counter"                        
                             label="Zählerstand zum Beginn"
                         ></v-text-field>                        
-                    </v-form>
+
                     </div>
                 </v-card-text>
                 </v-card>
@@ -89,7 +89,7 @@
                     Bitte folgendes Format verwenden: HHHH:MM:SS
                     <v-form v-model="valid_machine" ref="form_machine">
                         <v-text-field
-                            :value="counter_at_start"
+                            v-model="counter_at_end"
                             :rules="[rules.counter]"
                             prepend-icon="mdi-counter"                        
                             label="Zählerstand zum Ende"
@@ -106,7 +106,7 @@
                     Eine kurze Beschreibung für dich, um die Rechnung leichter zuordnen zu können.
                     <v-form v-model="valid_machine" ref="form_machine">
                         <v-text-field
-                            :value="counter_at_start"
+                            :value="project_description"
                             prepend-icon="mdi-lightbulb-on"                        
                             label="Deine Beschreibung"
                         ></v-text-field>                        
@@ -120,9 +120,9 @@
                     <div class="layout column">
                     <h2 class="info--text">Bist du Vereinsmitglied?</h2>
                         <v-form v-model="valid_machine" ref="form_machine">
-                            <v-radio-group :rules="[rules.machine]">
-                                <v-radio label="Vereinsmitglied" value="1"></v-radio>
-                                <v-radio label="Kein Vereinsmitglied" value="2"></v-radio>
+                            <v-radio-group v-model="membership" :rules="[rules.machine]">
+                                <v-radio label="Ja, Vereinsmitglied" value="member"></v-radio>
+                                <v-radio label="Nein, kein Vereinsmitglied" value="no_member"></v-radio>
                             </v-radio-group>
                         </v-form>
                     </div>
@@ -194,8 +194,67 @@
                 <v-card class="pa-3">
                     <v-card-text>
                         <div class="layout column">
-                            <h2 class="info--text">Berechnete Kosten</h2>
+                            <h2 class="info--text">Berechnetet Kosten</h2>
                         </div>
+        
+                        <br>
+
+                        <div class="layout column align-center">
+                            <h3 class="info--text">Laserzeit:</h3>
+                        </div>
+
+                        <br>
+
+                        <div class="layout column align-center">
+                            <h2> {{laser_usage}}</h2>
+                        </div>
+
+                        <br>                        
+
+                        <div class="layout column align-center">
+                            <h3 class="info--text">Preis je Minute:</h3>
+                        </div>
+
+                        <br>
+
+                        <div class="layout column align-center">
+                            <h2> {{laser_costs_per_minute}}</h2>
+                        </div>
+
+                        <br>
+
+                        <div class="layout column align-center">
+                            <h3 class="info--text">Kosten:</h3>
+                        </div>
+
+                        <br>
+
+                        <div class="layout column align-center">
+                            <h2> {{laser_costs_total}}</h2>
+                        </div>
+
+                        <br>
+
+                        <div v-if="laser_costs_tax">
+
+                            <div class="layout column align-center">
+                                <h3 class="info--text">Enthaltene Steuer:</h3>
+                            </div>
+
+                            <br>
+
+                            <div class="layout column align-center">
+                                <h2> {{laser_costs_tax}}</h2>
+                            </div>
+
+                            <br>
+
+                        </div>
+
+                        <div class="layout column align-center">
+                            <h3 class="red--text">* Achtung : Die berechneten Kosten können bei Rechnungsstellung abweichen !</h3>
+                        </div>
+
                     </v-card-text>
                 </v-card>            
                 <br>    
@@ -355,7 +414,7 @@
                         >                                
                             <v-switch
                                 dense
-                                v-model="switchMe2"
+                                v-model="accept_conditions"
                                 :rules="[rules.accept]"
                             >
                                 <template v-slot:label>
@@ -366,7 +425,7 @@
                             </v-switch>
                             <v-switch
                                 dense
-                                v-model="switchMe2"
+                                v-model="accept_submission"
                                 :rules="[rules.accept]"
                             >
                                 <template v-slot:label>
@@ -411,14 +470,22 @@ export default {
     valid_machine: false,
     valid_date: false,
     date: "",
+    membership : null,
+    laser_usage:"",
+    laser_costs_per_minute: "",
+    laser_costs_total: "",
+    laser_costs_tax: "",
     guest_email_input: false,
     valid_credentials: false,
     counter_at_start : "",
     counter_at_end : "",
+    accept_conditions : false,
+    accept_submission : false,
+    project_description: "",
     rules: {
       required: (value) => !!value || "Diese Angabe wird benötigt.",
       machine: (value) => !!value || "Bitte den verwendeten Laser angeben.",
-      counter: (value) => /([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]/.test(value) || "Bitte im folgenden Format eingeben : HHHH:MM:SS",
+      counter: (v) => /([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]+/.test(v) || "Bitte im folgenden Format eingeben : HHHH:MM:SS",
       email: (v) =>
         !v ||
         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,5})+$/.test(v) ||
@@ -443,14 +510,18 @@ export default {
         actionBuilder.newAction(
             "invoices",
             "calculateLaserCosts",
+            {
+                "counter_at_start" : this.counter_at_start,
+                "counter_at_end" : this.counter_at_end,
+                "membership" : this.membership
+            }
         ),
         ];
         this.$store.dispatch("actions/emitActionRequest", action).then(response => {
-                console.log("hhjkhj", response);
-
-            if (response.success) {
-                console.log("hhjkhj", response);
-            }
+            this.laser_usage = response.usage;
+            this.laser_costs_per_minute = response.costs_per_minute;
+            this.laser_costs_total = response.total_costs;
+            this.laser_costs_tax = response.tax;
         });
 
     },
@@ -459,7 +530,10 @@ export default {
         this.form_state = "enter_data";
     },
     calculate_and_proceed() {
+        console.log(this.counter_at_start,this.counter_at_end)
+
         window.scrollTo(0,0);
+        this.get_calculated_costs();
         this.form_state = "submit";
     },
     procceed_as_user() {
@@ -492,7 +566,6 @@ export default {
   },
   mounted() {
     let redirect = "no";
-    this.get_calculated_costs();
     if (this.$route.query.hasOwnProperty("redirect")) {
       redirect = this.$route.query.redirect;
     }

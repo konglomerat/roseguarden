@@ -3,18 +3,17 @@ export function newBaseAction() {
     action.action = 'undefined';
     action.workspace = 'undefined';
     action.version = 1.0;
-    console.log("newBaseAction");
     return action;
 }
 
 
 // generic action to execute tasks or get data
-export function newAction(workspace, workspaceAction, options = {}) {
+export function newAction(workspace, workspaceAction, parameters, options = {}) {
     let action = newBaseAction();
     action.workspace = workspace;
     action.action = workspaceAction;
     action.version = 1.0;
-    return { ...action, options };
+    return { ...action, ...parameters, options };
 }
 
 
