@@ -219,7 +219,7 @@
 
                         <br>
 
-                        <div class="layout column almaterialign-center">
+                        <div class="layout column align-center">
                             <h3 class="info--text">Gesamtkosten:</h3>
                         </div>
 
