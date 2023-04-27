@@ -57,12 +57,14 @@ class CalculateLaserCosts(Action):
     def calculate_costs(self, time_in_minutes, is_member):
         # extract coefficents
         (a, b, c) = self.get_price_coefficients(is_member)
-        # time per minute
-        costs_per_minute = a * math.exp(-b * time_in_minutes) + c
+        # costs of first minute
+        costs_first_minute = a * math.exp(-b) + c
+        # costs of last minute
+        costs_last_minute = a * math.exp(-b * time_in_minutes) + c
         # the total price is the integral of the price_per_minute function
         costs_tax_excluded = a / b * (1 - math.exp(-b * time_in_minutes)) + c * time_in_minutes
         tax = round(costs_tax_excluded * 0.19, 2)
-        return round(costs_tax_excluded, 2), tax, round(costs_per_minute, 2)
+        return round(costs_tax_excluded, 2), tax, round(costs_first_minute, 2), round(costs_last_minute, 2)
 
     def handle(self, action, user, workspace, actionManager):
         try:
@@ -71,19 +73,25 @@ class CalculateLaserCosts(Action):
             seconds_at_start = (start_h * 60 + start_m) * 60 + start_s
             seconds_at_end = (end_h * 60 + end_m) * 60 + end_s
             usage_in_minutes = (seconds_at_end - seconds_at_start) / 60
+            minutes= int(usage_in_minutes)
+            seconds = round(usage_in_minutes % 1 * 60) 
             membership = action["membership"] == "member"
         except Exception as e:
             return "success", [], {"costs_in_euro": None}
 
-        costs, tax, cost_per_minute = self.calculate_costs(time_in_minutes=usage_in_minutes, is_member=membership)
+        costs, tax, cost_first_minute, cost_last_minute = self.calculate_costs(
+            time_in_minutes=usage_in_minutes, is_member=membership
+        )
         return (
             "success",
             [],
             {
-                "usage": f"{round(usage_in_minutes, 2)} min".replace(".", ","),          
+                "usage": f"{minutes} min {seconds} s".replace(".", ","),
                 "costs": f"{costs} €".replace(".", ","),
                 "tax": f"{tax} €".replace(".", ","),
-                "total_costs" : f"{costs+tax} €".replace(".", ","),
-                "costs_per_minute": f"{cost_per_minute} €/min".replace(".", ","),
+                "total_costs": f"{round(costs+tax,2)} €".replace(".", ","),
+                "costs_first_minute": f"{cost_first_minute} €/min".replace(".", ","),
+                "costs_last_minute": f"{cost_last_minute} €/min".replace(".", ","),
+                "average_costs_per_minute": f"{round(costs / usage_in_minutes,2)} €/min".replace(".", ","),
             },
         )

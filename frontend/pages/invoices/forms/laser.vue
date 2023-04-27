@@ -23,25 +23,23 @@
             </v-card>
             <br>
             <div v-if="form_state==='enter_data'">
-                <v-card class="pa-3">
-                <v-card-text>
-                    <div class="layout column">
-                    <h2 class="info--text">Mit welchem Laserschneider hast du gearbeitet?</h2>
-                        <v-form v-model="valid_machine" ref="form_machine">
-                            <v-radio-group :rules="[rules.machine]">
-                                <v-radio label="Zing Laser" value="1"></v-radio>
-                                <v-radio label="DIT Lasersaur" value="2"></v-radio>
+                <v-form v-model="valid_form" @submit.prevent ref="form">
+                    <v-card class="pa-3">
+                    <v-card-text>
+                        <div class="layout column">
+                        <h2 class="info--text">Mit welchem Laserschneider hast du gearbeitet?</h2>
+                            <v-radio-group v-model="machine" :rules="[rules.required]">
+                                <v-radio label="Zing Laser" value="Zing"></v-radio>
+                                <v-radio label="DIT Lasersaur" value="Lasersaur"></v-radio>
                             </v-radio-group>
-                        </v-form>
-                    </div>
-                </v-card-text>
-                </v-card>
-                <br>
-                <v-card class="pa-3">
-                <v-card-text>
-                    <div class="layout column">
-                    <h2 class="info--text">Wann hast du gelasert? (Leistungsdatum)</h2>
-                        <v-form v-model="valid_date" ref="form_machine">
+                        </div>
+                    </v-card-text>
+                    </v-card>
+                    <br>
+                    <v-card class="pa-3">
+                    <v-card-text>
+                        <div class="layout column">
+                        <h2 class="info--text">Wann hast du gelasert? (Leistungsdatum)</h2>
                             <v-menu
                             :close-on-content-click="true"
                             max-width="290"
@@ -51,6 +49,7 @@
                                 :value="computedDate"
                                 prepend-icon="mdi-calendar"                        
                                 clearable
+                                :rules="[rules.required]"
                                 readonly
                                 v-on="on"
                                 ></v-text-field>
@@ -60,113 +59,104 @@
                                 locale="de"                            
                             ></v-date-picker>
                             </v-menu>
-                        </v-form>
-                    </div>
-                </v-card-text>
-                </v-card>
-                <br>
-                <v-card class="pa-3">
-                <v-card-text>
-                    <div class="layout column">
-                    <h2 class="info--text">Zählerstand zum Beginn?</h2>
+                        </div>
+                    </v-card-text>
+                    </v-card>
+                    <br>
+                    <v-card class="pa-3">
+                    <v-card-text>
+                        <div class="layout column">
+                        <h2 class="info--text">Zählerstand zum Beginn?</h2>
 
+                            Bitte folgendes Format verwenden: HHHH:MM:SS
+                            <v-text-field
+                                v-model="counter_at_start"
+                                :rules="[check_for_plausible_counter, rules.counter]"
+                                prepend-icon="mdi-counter"                        
+                                label="Zählerstand zum Beginn"
+                            ></v-text-field>                        
+
+                        </div>
+                    </v-card-text>
+                    </v-card>
+                    <br>
+                    <v-card class="pa-3">
+                    <v-card-text>
+                        <div class="layout column">
+                        <h2 class="info--text">Zählerstand zum Ende?</h2>
                         Bitte folgendes Format verwenden: HHHH:MM:SS
                         <v-text-field
-                            v-model="counter_at_start"
-                            :rules="[rules.counter]"
-                            prepend-icon="mdi-counter"                        
-                            label="Zählerstand zum Beginn"
-                        ></v-text-field>                        
-
-                    </div>
-                </v-card-text>
-                </v-card>
-                <br>
-                <v-card class="pa-3">
-                <v-card-text>
-                    <div class="layout column">
-                    <h2 class="info--text">Zählerstand zum Ende?</h2>
-                    Bitte folgendes Format verwenden: HHHH:MM:SS
-                    <v-form v-model="valid_machine" ref="form_machine">
-                        <v-text-field
                             v-model="counter_at_end"
-                            :rules="[rules.counter]"
+                            :rules="[rules.counter, check_for_plausible_counter]"
                             prepend-icon="mdi-counter"                        
                             label="Zählerstand zum Ende"
                         ></v-text-field>                        
-                    </v-form>
-                    </div>
-                </v-card-text>
-                </v-card>
-                <br>
-                <v-card class="pa-3">
-                <v-card-text>
-                    <div class="layout column">
-                    <h2 class="info--text">Dein Projekt?</h2>
-                    Eine kurze Beschreibung für dich, um die Rechnung leichter zuordnen zu können.
-                    <v-form v-model="valid_machine" ref="form_machine">
+                        </div>
+                    </v-card-text>
+                    </v-card>
+                    <br>
+                    <v-card class="pa-3">
+                    <v-card-text>
+                        <div class="layout column">
+                        <h2 class="info--text">Dein Projekt?</h2>
+                        Eine kurze Beschreibung für dich, um die Rechnung leichter zuordnen zu können.
                         <v-text-field
-                            :value="project_description"
+                            v-model="project_description"
                             prepend-icon="mdi-lightbulb-on"                        
                             label="Deine Beschreibung"
+                            :rules="[rules.required]"
                         ></v-text-field>                        
-                    </v-form>
-                    </div>
-                </v-card-text>
-                </v-card>
-                <br>
-                <v-card class="pa-3">
-                <v-card-text>
-                    <div class="layout column">
-                    <h2 class="info--text">Bist du Vereinsmitglied?</h2>
-                        <v-form v-model="valid_machine" ref="form_machine">
+                        </div>
+                    </v-card-text>
+                    </v-card>
+                    <br>
+                    <v-card class="pa-3">
+                    <v-card-text>
+                        <div class="layout column">
+                        <h2 class="info--text">Bist du Vereinsmitglied?</h2>
                             <v-radio-group v-model="membership" :rules="[rules.machine]">
                                 <v-radio label="Ja, Vereinsmitglied" value="member"></v-radio>
                                 <v-radio label="Nein, kein Vereinsmitglied" value="no_member"></v-radio>
                             </v-radio-group>
-                        </v-form>
-                    </div>
-                </v-card-text>
-                </v-card>
-                <br>
-                <v-card class="pa-3">
-                <v-card-text>
-                    <div class="layout column">
-                    <h2 class="info--text">Was ist der Verwendungszweck?</h2>
-                        <v-form v-model="valid_machine" ref="form_machine">
-                            <v-radio-group :rules="[rules.machine]">
+                        </div>
+                    </v-card-text>
+                    </v-card>
+                    <br>
+                    <v-card class="pa-3">
+                    <v-card-text>
+                        <div class="layout column">
+                        <h2 class="info--text">Was ist der Verwendungszweck?</h2>
+                            <v-radio-group v-model="purpose" :rules="[rules.machine]">
                                 <v-radio label="Privat" value="1"></v-radio>
                                 <v-radio label="Betrieblich" value="2"></v-radio>
                                 <v-radio label="Vereinsintern" value="3"></v-radio>
                             </v-radio-group>
-                        </v-form>
+                        </div>
+                    </v-card-text>
+                    </v-card>
+                    <br>
+                    <v-card class="pa-3">
+                    <v-card-text>
+                        <div class="layout column">
+                        <h2 class="info--text">Optional: Welches Material hast du gelasert?</h2>
+                        Für die Statistik ;-)
+                            <v-radio-group v-model="material">
+                            <v-radio label="MDF/HDF" value="MDF/HDF"></v-radio>
+                            <v-radio label="PMMA/Acrylglas/Plexiglas" value="PMMA"></v-radio>
+                            <v-radio label="Papier/Pappe" value="Paper"></v-radio>
+                            <v-radio label="Sonstiges" value="Others"></v-radio>
+                            </v-radio-group>
+                        </div>
+                    </v-card-text>
+                    </v-card>
+                    <br>
+                    <div class="layout column align-center">
+                        <v-btn type="submit" color="info" @click="calculate_and_proceed">
+                            Berechnen und weiter
+                        </v-btn>
                     </div>
-                </v-card-text>
-                </v-card>
-                <br>
-                <v-card class="pa-3">
-                <v-card-text>
-                    <div class="layout column">
-                    <h2 class="info--text">Optional: Welches Material hast du gelasert?</h2>
-                    Für die Statistik ;-)
-                    <v-form v-model="valid_machine" ref="form_machine">
-                        <v-radio-group :rules="[rules.machine]">
-                        <v-radio label="MDF/HDF" value="1"></v-radio>
-                        <v-radio label="PMMA/Acrylglas/Plexiglas" value="2"></v-radio>
-                        <v-radio label="Papier/Pappe" value="3"></v-radio>
-                        <v-radio label="Sonstiges" value="4"></v-radio>
-                        </v-radio-group>
-                    </v-form>
-                    </div>
-                </v-card-text>
-                </v-card>
-                <br>
-                <div class="layout column align-center">
-                    <v-btn color="info" @click="calculate_and_proceed">
-                        Berechnen und weiter
-                    </v-btn>
-                </div>
-                <br>
+                    <br>
+                </v-form>
             </div>
             <div v-else>
                 <div class="layout column align-center">
@@ -212,19 +202,25 @@
                         <br>                        
 
                         <div class="layout column align-center">
-                            <h3 class="info--text">Preis je Minute:</h3>
+                            <h3 class="info--text">Durchschnittlicher Preis je Minute:</h3>
                         </div>
 
                         <br>
 
                         <div class="layout column align-center">
-                            <h2> {{laser_costs_per_minute}}</h2>
+                            <h2> {{laser_average_costs_per_minute}}</h2>
                         </div>
 
                         <br>
 
                         <div class="layout column align-center">
-                            <h3 class="info--text">Kosten:</h3>
+                            <h3> ( Erste Minute: {{laser_costs_first_minute}} &nbsp; Letzte Minute: {{laser_costs_last_minute}} )</h3>
+                        </div>
+
+                        <br>
+
+                        <div class="layout column almaterialign-center">
+                            <h3 class="info--text">Gesamtkosten:</h3>
                         </div>
 
                         <br>
@@ -430,7 +426,7 @@
                             >
                                 <template v-slot:label>
                                 <span>
-                                    Ich bin damit einverstanden, dass meine Eingaben an den Konglomerat e.V. gesendet werden.
+                                    Ich bin damit einverstanden, dass meine Angaben an den Konglomerat e.V. übermittelt werden.
                                 </span>
                                 </template>
                             </v-switch>
@@ -467,12 +463,17 @@ export default {
     loading: false,
     query: "-",
     form_state: "enter_data",
-    valid_machine: false,
+    valid_form: false,
     valid_date: false,
     date: "",
+    purpose: null,
+    machine: null,
     membership : null,
+    material : null,
     laser_usage:"",
-    laser_costs_per_minute: "",
+    laser_costs_first_minute: "",
+    laser_costs_last_minute: "",
+    laser_average_costs_per_minute: "",
     laser_costs_total: "",
     laser_costs_tax: "",
     guest_email_input: false,
@@ -485,7 +486,7 @@ export default {
     rules: {
       required: (value) => !!value || "Diese Angabe wird benötigt.",
       machine: (value) => !!value || "Bitte den verwendeten Laser angeben.",
-      counter: (v) => /([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]+/.test(v) || "Bitte im folgenden Format eingeben : HHHH:MM:SS",
+      counter: (v) => /([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]\b/.test(v) || "Bitte im folgenden Format eingeben : HHHH:MM:SS",
       email: (v) =>
         !v ||
         /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,5})+$/.test(v) ||
@@ -505,6 +506,17 @@ export default {
     async validate () {
         const { valid_machine } = await this.$refs.form_machine.validate()
     },
+    check_for_plausible_counter () {
+        let vals_start = this.counter_at_start.split(":").map(function(item) {
+            return parseInt(item, 10);
+        });
+        let vals_end = this.counter_at_end.split(":").map(function(item) {
+            return parseInt(item, 10);
+        });
+        let seconds = ((vals_end[0] * 60 + vals_end[1]) * 60 + vals_end[2]) - 
+                    ((vals_start[0] * 60 + vals_start[1]) * 60 + vals_start[2]);
+        return !this.counter_at_end || (seconds > 0) || "Der Zählerstand am Ende muss größer sein als der Zählerstand am Anfang.";
+    },    
     get_calculated_costs() {
         let action = [
         actionBuilder.newAction(
@@ -519,7 +531,9 @@ export default {
         ];
         this.$store.dispatch("actions/emitActionRequest", action).then(response => {
             this.laser_usage = response.usage;
-            this.laser_costs_per_minute = response.costs_per_minute;
+            this.laser_costs_first_minute = response.costs_first_minute
+            this.laser_costs_last_minute = response.costs_last_minute
+            this.laser_average_costs_per_minute = response.average_costs_per_minute
             this.laser_costs_total = response.total_costs;
             this.laser_costs_tax = response.tax;
         });
@@ -530,11 +544,12 @@ export default {
         this.form_state = "enter_data";
     },
     calculate_and_proceed() {
-        console.log(this.counter_at_start,this.counter_at_end)
-
-        window.scrollTo(0,0);
-        this.get_calculated_costs();
-        this.form_state = "submit";
+        const { valid } = this.$refs.form.validate();
+        if (this.valid_form == true) {
+            window.scrollTo(0,0);
+            this.get_calculated_costs();
+            this.form_state = "submit";
+        }
     },
     procceed_as_user() {
         this.guest_email_input = false;
