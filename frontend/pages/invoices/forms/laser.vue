@@ -248,7 +248,7 @@
                         </div>
 
                         <div class="layout column align-center">
-                            <h3 class="red--text">* Achtung : Die berechneten Kosten können bei Rechnungsstellung abweichen !</h3>
+                            <h3 class="red--text">* Achtung : Die berechneten Kosten können bei Rechnungsstellung abweichen!</h3>
                         </div>
 
                     </v-card-text>

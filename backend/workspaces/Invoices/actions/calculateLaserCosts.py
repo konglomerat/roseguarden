@@ -58,7 +58,7 @@ class CalculateLaserCosts(Action):
         # extract coefficents
         (a, b, c) = self.get_price_coefficients(is_member)
         # costs of first minute
-        costs_first_minute = a * math.exp(-b) + c
+        costs_first_minute = a + c
         # costs of last minute
         costs_last_minute = a * math.exp(-b * time_in_minutes) + c
         # the total price is the integral of the price_per_minute function
@@ -73,8 +73,8 @@ class CalculateLaserCosts(Action):
             seconds_at_start = (start_h * 60 + start_m) * 60 + start_s
             seconds_at_end = (end_h * 60 + end_m) * 60 + end_s
             usage_in_minutes = (seconds_at_end - seconds_at_start) / 60
-            minutes= int(usage_in_minutes)
-            seconds = round(usage_in_minutes % 1 * 60) 
+            minutes = int(usage_in_minutes)
+            seconds = round(usage_in_minutes % 1 * 60)
             membership = action["membership"] == "member"
         except Exception as e:
             return "success", [], {"costs_in_euro": None}
@@ -89,9 +89,9 @@ class CalculateLaserCosts(Action):
                 "usage": f"{minutes} min {seconds} s".replace(".", ","),
                 "costs": f"{costs} €".replace(".", ","),
                 "tax": f"{tax} €".replace(".", ","),
-                "total_costs": f"{round(costs+tax,2)} €".replace(".", ","),
-                "costs_first_minute": f"{cost_first_minute} €/min".replace(".", ","),
-                "costs_last_minute": f"{cost_last_minute} €/min".replace(".", ","),
-                "average_costs_per_minute": f"{round(costs / usage_in_minutes,2)} €/min".replace(".", ","),
+                "total_costs": f"{round(costs+tax,2):.2f} €".replace(".", ","),
+                "costs_first_minute": f"{cost_first_minute:.2f} €/min".replace(".", ","),
+                "costs_last_minute": f"{cost_last_minute:.2f} €/min".replace(".", ","),
+                "average_costs_per_minute": f"{round(costs / usage_in_minutes,2):.2f} €/min".replace(".", ","),
             },
         )
