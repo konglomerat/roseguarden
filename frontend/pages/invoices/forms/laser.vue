@@ -127,9 +127,9 @@
                         <div class="layout column">
                         <h2 class="info--text">Was ist der Verwendungszweck?</h2>
                             <v-radio-group v-model="purpose" :rules="[rules.machine]">
-                                <v-radio label="Privat" value="1"></v-radio>
-                                <v-radio label="Betrieblich" value="2"></v-radio>
-                                <v-radio label="Vereinsintern" value="3"></v-radio>
+                                <v-radio label="Privat" value="private"></v-radio>
+                                <v-radio label="Betrieblich" value="comercial"></v-radio>
+                                <v-radio label="Vereinsintern" value="internal"></v-radio>
                             </v-radio-group>
                         </div>
                     </v-card-text>
@@ -260,95 +260,113 @@
                             <h2 class="info--text">Anmelden</h2>
                         </div>
 
-                        <br v-if="!guest_email_input">
+                        <div v-if="!guest_email_input">
 
-                        <div v-if="!guest_email_input" class="layout column align-center">
-                            <h3 class="info--text">Bitte melde dich an:</h3>
-                        </div>
+                            <br>
 
-                        <v-row v-if="!guest_email_input">
-                            <v-col
-                                cols="12"
-                                lg="10"
-                                offset-lg="1"
-                                sm="10"
-                                offset-sm="1"
-                                xs="12"
-                                justify="center"
-                                align="center"
-                                dense
-                            >
-                                <v-form
-                                v-model="valid_credentials"
-                                @submit.prevent="login"
-                                id="login-form"
-                                >
-                                <v-text-field
-                                    append-icon="person"
-                                    name="login"
-                                    label="E-Mail"
-                                    type="email"
-                                    v-model="model.username"
-                                    color="info"
-                                    :rules="[rules.email, rules.required]"
-                                ></v-text-field>
-                                <v-text-field
-                                    append-icon="lock"
-                                    name="password"
-                                    label="Passwort"
-                                    id="password"
-                                    type="password"
-                                    color="info"
-                                    v-model="model.password"
-                                    :rules="[rules.required]"
-                                ></v-text-field>
-                                </v-form>
-                            </v-col>
-                            <v-col cols="9" lg="5" offset-lg="2" sm="5" offset-sm="2" xs="9">
-                                <v-btn
-                                dense
-                                text
-                                small
-                                color="info"
-                                href="/user/lostpassword"
-                                target="_blank"
-                                >Passwort vergessen?</v-btn
-                                >
-                            </v-col>
-                            <v-col
-                                cols="12"
-                                offset="0"
-                                lg="3"
-                                offset-lg="0"
-                                sm="3"
-                                offset-sm="0"
-                                xs="12"
-                                align="center"
-                                justify="center"
-                            >
-                                <v-btn
-                                color="primary"
-                                class="text-center"
-                                form="login-form"
-                                type="submit"
-                                @click="login"
-                                :disabled="!valid_credentials"
-                                >Anmelden</v-btn
-                                >
-                            </v-col>
+                            <div v-if="valid">
+                                <div class="layout column align-center">
+                                    <h2>  Die Lasernutzung für {{firstname}} {{lastname}} eintragen!</h2>
+                                </div>
+                                <br>
+                                <div class="layout column align-center">
+                                    <v-btn small color="primary" @click="logout">
+                                        Als anderer Nutzer anmelden.
+                                    </v-btn>
+                                </div>                                                       
+                            </div>
 
-                        </v-row>
+                            <div v-else>
 
-                        <br v-if="!guest_email_input">
+                                <div class="layout column align-center">
+                                    <h3 class="info--text">Bitte melde dich an:</h3>
+                                </div>
 
-                        <div v-if="!guest_email_input" class="layout column align-center">
-                            <h3 class="info--text">Oder alternativ:</h3>
-                        </div>
-                        <br v-if="!guest_email_input">
-                        <div v-if="!guest_email_input" class="layout column align-center">
-                            <v-btn color="info" @click="procceed_as_guest">
-                                Ohne Anmeldung fortfahren 
-                            </v-btn>
+                                <v-row >
+                                    <v-col
+                                        cols="12"
+                                        lg="10"
+                                        offset-lg="1"
+                                        sm="10"
+                                        offset-sm="1"
+                                        xs="12"
+                                        justify="center"
+                                        align="center"
+                                        dense
+                                    >
+                                        <v-form
+                                        v-model="valid_credentials"
+                                        @submit.prevent="login"
+                                        id="login-form"
+                                        >
+                                        <v-text-field
+                                            append-icon="person"
+                                            name="login"
+                                            label="E-Mail"
+                                            type="email"
+                                            v-model="model.username"
+                                            color="info"
+                                            :rules="[rules.email, rules.required]"
+                                        ></v-text-field>
+                                        <v-text-field
+                                            append-icon="lock"
+                                            name="password"
+                                            label="Passwort"
+                                            id="password"
+                                            type="password"
+                                            color="info"
+                                            v-model="model.password"
+                                            :rules="[rules.required]"
+                                        ></v-text-field>
+                                        </v-form>
+                                    </v-col>
+                                    <v-col cols="9" lg="5" offset-lg="2" sm="5" offset-sm="2" xs="9">
+                                        <v-btn
+                                        dense
+                                        text
+                                        small
+                                        color="info"
+                                        href="/user/lostpassword"
+                                        target="_blank"
+                                        >Passwort vergessen?</v-btn
+                                        >
+                                    </v-col>
+                                    <v-col
+                                        cols="12"
+                                        offset="0"
+                                        lg="3"
+                                        offset-lg="0"
+                                        sm="3"
+                                        offset-sm="0"
+                                        xs="12"
+                                        align="center"
+                                        justify="center"
+                                    >
+                                        <v-btn
+                                        color="primary"
+                                        class="text-center"
+                                        form="login-form"
+                                        type="submit"
+                                        @click="login"
+                                        :disabled="!valid_credentials"
+                                        >Anmelden</v-btn
+                                        >
+                                    </v-col>
+
+                                </v-row>
+                            </div>
+
+                            <br>
+
+                            <div class="layout column align-center">
+                                <h3 class="info--text">Oder alternativ:</h3>
+                            </div>
+                            <br >
+                            <div class="layout column align-center">
+                                <v-btn color="info" @click="procceed_as_guest">
+                                    Ohne Anmeldung fortfahren 
+                                </v-btn>
+                            </div>
                         </div>
                         <div v-else class="layout column">
                             <v-col
@@ -411,7 +429,7 @@
                             <v-switch
                                 dense
                                 v-model="accept_conditions"
-                                :rules="[rules.accept]"
+                                :rules="[rules.required]"
                             >
                                 <template v-slot:label>
                                 <span>
@@ -422,7 +440,7 @@
                             <v-switch
                                 dense
                                 v-model="accept_submission"
-                                :rules="[rules.accept]"
+                                :rules="[rules.required]"
                             >
                                 <template v-slot:label>
                                 <span>
@@ -465,11 +483,12 @@ export default {
     form_state: "enter_data",
     valid_form: false,
     valid_date: false,
-    date: "",
-    purpose: null,
-    machine: null,
-    membership : null,
+    date: new Date(Date.UTC(2012, 11, 20, 3, 0, 0)),
+    purpose: "private",
+    machine: "Zing",
+    membership : "member",
     material : null,
+    project_description: "Test",
     laser_usage:"",
     laser_costs_first_minute: "",
     laser_costs_last_minute: "",
@@ -478,11 +497,10 @@ export default {
     laser_costs_tax: "",
     guest_email_input: false,
     valid_credentials: false,
-    counter_at_start : "",
-    counter_at_end : "",
+    counter_at_start : "1:20:01",
+    counter_at_end : "2:20:01",
     accept_conditions : false,
     accept_submission : false,
-    project_description: "",
     rules: {
       required: (value) => !!value || "Diese Angabe wird benötigt.",
       machine: (value) => !!value || "Bitte den verwendeten Laser angeben.",
@@ -501,6 +519,12 @@ export default {
     computedDate () {
       return this.date ? moment(this.date).locale("de").format('dddd, MMMM Do YYYY',"de") : ''
     },
+    ...mapState("user", [
+      "valid",
+      "email",
+      "firstname",
+      "lastname",
+    ]),    
   },
   methods: {
     async validate () {
@@ -560,19 +584,19 @@ export default {
     login() {
       //this.loading = true;
 
-      let redirect = "";
-      if (this.$route.query.hasOwnProperty("redirect")) {
-        redirect = this.$route.query.redirect;
-      }
       let loginAction = [
         actionBuilder.newLoginUserAction(
           this.model.username,
           this.model.password,
-          { redirect: redirect }
+          { redirect: null }
         ),
       ];
       this.$store.dispatch("actions/emitActionRequest", loginAction);
       this.$store.dispatch("user/login", null);
+    },
+    logout() {
+      this.$store.dispatch("user/resetToken");
+      this.$store.dispatch("user/logout");
     },
     cancel() {
       this.$store.dispatch("user/logout", null);
