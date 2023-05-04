@@ -149,6 +149,13 @@
                         </div>
                     </v-card-text>
                     </v-card>
+                    <div v-if="show_alert && !valid_form">
+                        <br>
+                        <v-alert color="error" dark icon="mdi-alert" density="compact"
+                            >
+                            Bitte prüfe deine Eingaben.
+                        </v-alert>
+                    </div>
                     <br>
                     <div class="layout column align-center">
                         <v-btn type="submit" color="info" @click="calculate_and_proceed">
@@ -165,210 +172,260 @@
                     </v-btn>
                 </div>
                 <br>
-                <v-card class="pa-3">
-                    <v-card-text>
-                        <div class="layout column">
-                            <h2 class="info--text">Laser-Kosten im Konglomerat</h2>
-                            <div>
-                                <br>
-                                Im Konglomerat fallen folgende Kosten für das selbstständige lasern an.
-                            </div>
-                            <v-img
-                                cover
-                                src="/images/laser_pricing.svg">
-                            </v-img>
-                        </div>
-                    </v-card-text>
-                </v-card>                
-                <br>
-                <v-card class="pa-3">
-                    <v-card-text>
-                        <div class="layout column">
-                            <h2 class="info--text">Berechnetet Kosten</h2>
-                        </div>
-        
-                        <br>
+                <v-form v-model="valid_agreement" @submit.prevent ref="form_sbumit">
 
-                        <div class="layout column align-center">
-                            <h3 class="info--text">Laserzeit:</h3>
-                        </div>
-
-                        <br>
-
-                        <div class="layout column align-center">
-                            <h2> {{laser_usage}}</h2>
-                        </div>
-
-                        <br>                        
-
-                        <div class="layout column align-center">
-                            <h3 class="info--text">Durchschnittlicher Preis je Minute:</h3>
-                        </div>
-
-                        <br>
-
-                        <div class="layout column align-center">
-                            <h2> {{laser_average_costs_per_minute}}</h2>
-                        </div>
-
-                        <br>
-
-                        <div class="layout column align-center">
-                            <h3> ( Erste Minute: {{laser_costs_first_minute}} &nbsp; Letzte Minute: {{laser_costs_last_minute}} )</h3>
-                        </div>
-
-                        <br>
-
-                        <div class="layout column align-center">
-                            <h3 class="info--text">Gesamtkosten:</h3>
-                        </div>
-
-                        <br>
-
-                        <div class="layout column align-center">
-                            <h2> {{laser_costs_total}}</h2>
-                        </div>
-
-                        <br>
-
-                        <div v-if="laser_costs_tax">
-
-                            <div class="layout column align-center">
-                                <h3 class="info--text">Enthaltene Steuer:</h3>
-                            </div>
-
-                            <br>
-
-                            <div class="layout column align-center">
-                                <h2> {{laser_costs_tax}}</h2>
-                            </div>
-
-                            <br>
-
-                        </div>
-
-                        <div class="layout column align-center">
-                            <h3 class="red--text">* Achtung : Die berechneten Kosten können bei Rechnungsstellung abweichen!</h3>
-                        </div>
-
-                    </v-card-text>
-                </v-card>            
-                <br>    
-                <v-card class="pa-3">
-                    <v-card-text>
-                        <div class="layout column">
-                            <h2 class="info--text">Anmelden</h2>
-                        </div>
-
-                        <div v-if="!guest_email_input">
-
-                            <br>
-
-                            <div v-if="valid">
-                                <div class="layout column align-center">
-                                    <h2>  Die Lasernutzung für {{firstname}} {{lastname}} eintragen!</h2>
+                    <v-card class="pa-3">
+                        <v-card-text>
+                            <div class="layout column">
+                                <h2 class="info--text">Laser-Kosten im Konglomerat</h2>
+                                <div>
+                                    <br>
+                                    Im Konglomerat fallen folgende Kosten für das selbstständige lasern an.
                                 </div>
-                                <br>
+                                <v-img
+                                    cover
+                                    src="/images/laser_pricing.svg">
+                                </v-img>
+                            </div>
+                        </v-card-text>
+                    </v-card>                
+                    <br>
+                    <v-card class="pa-3">
+                        <v-card-text>
+                            <div class="layout column">
+                                <h2 class="info--text">Berechnetet Kosten</h2>
+                            </div>
+            
+                            <br>
+
+                            <div class="layout column align-center">
+                                <h3 class="info--text">Laserzeit:</h3>
+                            </div>
+
+                            <br>
+
+                            <div class="layout column align-center">
+                                <h2> {{laser_usage}}</h2>
+                            </div>
+
+                            <br>                        
+
+                            <div class="layout column align-center">
+                                <h3 class="info--text">Durchschnittlicher Preis je Minute:</h3>
+                            </div>
+
+                            <br>
+
+                            <div class="layout column align-center">
+                                <h2> {{laser_average_costs_per_minute}}</h2>
+                            </div>
+
+                            <br>
+
+                            <div class="layout column align-center">
+                                <h3> ( Erste Minute: {{laser_costs_first_minute}} &nbsp; Letzte Minute: {{laser_costs_last_minute}} )</h3>
+                            </div>
+
+                            <br>
+
+                            <div class="layout column align-center">
+                                <h3 class="info--text">Gesamtkosten:</h3>
+                            </div>
+
+                            <br>
+
+                            <div class="layout column align-center">
+                                <h2> {{laser_costs_total}}</h2>
+                            </div>
+
+                            <br>
+
+                            <div v-if="laser_costs_tax">
+
                                 <div class="layout column align-center">
-                                    <v-btn small color="primary" @click="logout">
-                                        Als anderer Nutzer anmelden.
+                                    <h3 class="info--text">Enthaltene Steuer:</h3>
+                                </div>
+
+                                <br>
+
+                                <div class="layout column align-center">
+                                    <h2> {{laser_costs_tax}}</h2>
+                                </div>
+
+                                <br>
+
+                            </div>
+
+                            <div class="layout column align-center">
+                                <h3 class="red--text">* Achtung : Die berechneten Kosten können bei Rechnungsstellung abweichen!</h3>
+                            </div>
+
+                        </v-card-text>
+                    </v-card>            
+                    <br>    
+                    <v-card class="pa-3">
+                        <v-card-text>
+                            <div class="layout column">
+                                <h2 class="info--text">Anmelden</h2>
+                            </div>
+
+                            <div v-if="!guest_email_input">
+
+                                <br>
+
+                                <div v-if="valid">
+                                    <div class="layout column align-center">
+                                        <h2>  Die Lasernutzung für {{firstname}} {{lastname}} eintragen!</h2>
+                                    </div>
+                                    <br>
+                                    <div class="layout column align-center">
+                                        <v-btn small color="primary" @click="logout">
+                                            Als anderer Nutzer anmelden.
+                                        </v-btn>
+                                    </div>                                                       
+                                </div>
+
+                                <div v-else>
+
+                                    <div class="layout column align-center">
+                                        <h3 class="info--text">Bitte melde dich an:</h3>
+                                    </div>
+
+                                    <v-row >
+                                        <v-col
+                                            cols="12"
+                                            lg="10"
+                                            offset-lg="1"
+                                            sm="10"
+                                            offset-sm="1"
+                                            xs="12"
+                                            justify="center"
+                                            align="center"
+                                            dense
+                                        >
+                                            <v-form
+                                            v-model="valid_credentials"
+                                            @submit.prevent="login"
+                                            id="login-form"
+                                            >
+                                            <v-text-field
+                                                append-icon="person"
+                                                name="login"
+                                                label="E-Mail"
+                                                type="email"
+                                                v-model="model.username"
+                                                color="info"
+                                                :rules="[rules.email, rules.required]"
+                                            ></v-text-field>
+                                            <v-text-field
+                                                append-icon="lock"
+                                                name="password"
+                                                label="Passwort"
+                                                id="password"
+                                                type="password"
+                                                color="info"
+                                                v-model="model.password"
+                                                :rules="[rules.required]"
+                                            ></v-text-field>
+                                            </v-form>
+                                        </v-col>
+                                        <v-col cols="9" lg="5" offset-lg="2" sm="5" offset-sm="2" xs="9">
+                                            <v-btn
+                                            dense
+                                            text
+                                            small
+                                            color="info"
+                                            href="/user/lostpassword"
+                                            target="_blank"
+                                            >Passwort vergessen?</v-btn
+                                            >
+                                        </v-col>
+                                        <v-col
+                                            cols="12"
+                                            offset="0"
+                                            lg="3"
+                                            offset-lg="0"
+                                            sm="3"
+                                            offset-sm="0"
+                                            xs="12"
+                                            align="center"
+                                            justify="center"
+                                        >
+                                            <v-btn
+                                            color="primary"
+                                            class="text-center"
+                                            form="login-form"
+                                            type="submit"
+                                            @click="login"
+                                            :disabled="!valid_credentials"
+                                            >Anmelden</v-btn
+                                            >
+                                        </v-col>
+
+                                    </v-row>
+                                </div>
+
+                                <br>
+
+                                <div class="layout column align-center">
+                                    <h3 class="info--text">Oder alternativ:</h3>
+                                </div>
+                                <br >
+                                <div class="layout column align-center">
+                                    <v-btn color="info" @click="procceed_as_guest">
+                                        Ohne Anmeldung fortfahren 
                                     </v-btn>
-                                </div>                                                       
-                            </div>
-
-                            <div v-else>
-
-                                <div class="layout column align-center">
-                                    <h3 class="info--text">Bitte melde dich an:</h3>
                                 </div>
-
-                                <v-row >
-                                    <v-col
-                                        cols="12"
-                                        lg="10"
-                                        offset-lg="1"
-                                        sm="10"
-                                        offset-sm="1"
-                                        xs="12"
-                                        justify="center"
-                                        align="center"
-                                        dense
-                                    >
-                                        <v-form
-                                        v-model="valid_credentials"
-                                        @submit.prevent="login"
-                                        id="login-form"
-                                        >
-                                        <v-text-field
-                                            append-icon="person"
-                                            name="login"
-                                            label="E-Mail"
-                                            type="email"
-                                            v-model="model.username"
-                                            color="info"
-                                            :rules="[rules.email, rules.required]"
-                                        ></v-text-field>
-                                        <v-text-field
-                                            append-icon="lock"
-                                            name="password"
-                                            label="Passwort"
-                                            id="password"
-                                            type="password"
-                                            color="info"
-                                            v-model="model.password"
-                                            :rules="[rules.required]"
-                                        ></v-text-field>
-                                        </v-form>
-                                    </v-col>
-                                    <v-col cols="9" lg="5" offset-lg="2" sm="5" offset-sm="2" xs="9">
-                                        <v-btn
-                                        dense
-                                        text
-                                        small
+                            </div>
+                            <div v-else class="layout column">
+                                <v-col
+                                    cols="12"
+                                    lg="10"
+                                    offset-lg="1"
+                                    sm="10"
+                                    offset-sm="1"
+                                    xs="12"
+                                    justify="center"
+                                    align="center"
+                                    dense
+                                >
+                                    <v-text-field
+                                        append-icon="person"
+                                        name="login"
+                                        label="E-Mail (Gast)"
+                                        type="email"
+                                        v-model="model.username"
                                         color="info"
-                                        href="/user/lostpassword"
-                                        target="_blank"
-                                        >Passwort vergessen?</v-btn
-                                        >
-                                    </v-col>
-                                    <v-col
-                                        cols="12"
-                                        offset="0"
-                                        lg="3"
-                                        offset-lg="0"
-                                        sm="3"
-                                        offset-sm="0"
-                                        xs="12"
-                                        align="center"
-                                        justify="center"
-                                    >
-                                        <v-btn
-                                        color="primary"
-                                        class="text-center"
-                                        form="login-form"
-                                        type="submit"
-                                        @click="login"
-                                        :disabled="!valid_credentials"
-                                        >Anmelden</v-btn
-                                        >
-                                    </v-col>
+                                        :rules="[rules.email, rules.required]"
+                                    ></v-text-field>
+                                An diese Adresse wird die generierte Rechnung geschickt.
 
-                                </v-row>
+                                </v-col>                            
                             </div>
 
-                            <br>
-
-                            <div class="layout column align-center">
+                            <br v-if="guest_email_input">
+                            <div v-if="guest_email_input" class="layout column align-center">
                                 <h3 class="info--text">Oder alternativ:</h3>
                             </div>
-                            <br >
-                            <div class="layout column align-center">
-                                <v-btn color="info" @click="procceed_as_guest">
-                                    Ohne Anmeldung fortfahren 
+
+                            <br v-if="guest_email_input">
+
+                            <div v-if="guest_email_input" class="layout column align-center">
+                                <v-btn color="info" @click="procceed_as_user">
+                                    Als registrierter Nutzer Anmelden 
                                 </v-btn>
                             </div>
-                        </div>
-                        <div v-else class="layout column">
+
+
+                        </v-card-text>
+                    </v-card>                
+                    <br>
+                    <v-card class="pa-3">
+                        <v-card-text>
+                            <div class="layout column">
+                                <h2 class="info--text">Angaben eintragen</h2>
+                            </div>
+
                             <v-col
                                 cols="12"
                                 lg="10"
@@ -376,90 +433,58 @@
                                 sm="10"
                                 offset-sm="1"
                                 xs="12"
-                                justify="center"
-                                align="center"
                                 dense
-                            >
-                                <v-text-field
-                                    append-icon="person"
-                                    name="login"
-                                    label="E-Mail (Gast)"
-                                    type="email"
-                                    v-model="model.username"
-                                    color="info"
-                                    :rules="[rules.email, rules.required]"
-                                ></v-text-field>
-                            An diese Adresse wird die generierte Rechnung geschickt.
+                            >                                
+                                <v-switch
+                                    dense
+                                    v-model="accept_conditions"
+                                    :rules="[rules.required]"
+                                >
+                                    <template v-slot:label>
+                                    <span>
+                                        Ich habe die <a href="/termsofuse" target="_blank" @click.stop>Nutzungsvereinbarung</a> und die <a href="/privacy" target="_blank" @click.stop>Datenschutzerklärung</a> gelesen und erkläre mich damit einverstanden.
+                                    </span>
+                                    </template>
+                                </v-switch>
+                                <v-switch
+                                    dense
+                                    v-model="accept_submission"
+                                    :rules="[rules.required]"
+                                >
+                                    <template v-slot:label>
+                                    <span>
+                                        Ich bin damit einverstanden, dass meine Angaben an den Konglomerat e.V. übermittelt werden.
+                                    </span>
+                                    </template>
+                                </v-switch>
 
-                            </v-col>                            
-                        </div>
+                                <div v-if="show_alert && !valid_agreement">
+                                    <br>
+                                    <v-alert color="error" dark icon="mdi-alert" density="compact">
+                                        Bitte stimme den Vereinbarungen vor dem Absenden zu. 
+                                    </v-alert>
+                                </div>
 
-                        <br v-if="guest_email_input">
-                        <div v-if="guest_email_input" class="layout column align-center">
-                            <h3 class="info--text">Oder alternativ:</h3>
-                        </div>
-
-                        <br v-if="guest_email_input">
-
-                        <div v-if="guest_email_input" class="layout column align-center">
-                            <v-btn color="info" @click="procceed_as_user">
-                                Als registrierter Nutzer Anmelden 
-                            </v-btn>
-                        </div>
+                                <div v-if="show_alert && !guest_email_input && !valid">
+                                    <br>
+                                    <v-alert color="error" dark icon="mdi-alert" density="compact">
+                                        Bitte melde dich an oder gib als Gast deine Mail-Adresse an. 
+                                    </v-alert>
+                                </div>
+                            </v-col>
 
 
-                    </v-card-text>
-                </v-card>                
-                <br>
-                <v-card class="pa-3">
-                    <v-card-text>
-                        <div class="layout column">
-                            <h2 class="info--text">Angaben eintragen</h2>
-                        </div>
 
-                        <v-col
-                            cols="12"
-                            lg="10"
-                            offset-lg="1"
-                            sm="10"
-                            offset-sm="1"
-                            xs="12"
-                            dense
-                        >                                
-                            <v-switch
-                                dense
-                                v-model="accept_conditions"
-                                :rules="[rules.required]"
-                            >
-                                <template v-slot:label>
-                                <span>
-                                    Ich habe die <a href="/termsofuse" target="_blank" @click.stop>Nutzungsvereinbarung</a> und die <a href="/privacy" target="_blank" @click.stop>Datenschutzerklärung</a> gelesen und erkläre mich damit einverstanden.
-                                </span>
-                                </template>
-                            </v-switch>
-                            <v-switch
-                                dense
-                                v-model="accept_submission"
-                                :rules="[rules.required]"
-                            >
-                                <template v-slot:label>
-                                <span>
-                                    Ich bin damit einverstanden, dass meine Angaben an den Konglomerat e.V. übermittelt werden.
-                                </span>
-                                </template>
-                            </v-switch>
+                            <div class="layout column align-center">
+                                <v-btn type="submit" color="info" @click="check_and_submit">
+                                    Absenden
+                                </v-btn>
 
-                        </v-col>
+                            </div>
+                        </v-card-text>
+                    </v-card>
 
-                        <div class="layout column align-center">
-                            <v-btn color="info">
-                                Absenden
-                            </v-btn>
-
-                        </div>
-                    </v-card-text>
-                </v-card>                
-
+                </v-form>
 
             </div>
           </v-flex>
@@ -483,14 +508,16 @@ export default {
     form_state: "enter_data",
     valid_form: false,
     valid_date: false,
-    date: null, // new Date(Date.UTC(2012, 11, 20, 3, 0, 0)),
-    purpose: null, // "private",
-    machine: null, // "Zing",
-    membership : null, // "member",
+    valid_agreement : false,
+    show_alert: false,
+    date: new Date(Date.UTC(2012, 11, 20, 3, 0, 0)),
+    purpose: "private",
+    machine: "Zing",
+    membership : "member",
     material : null,
-    counter_at_start : "", // "1:20:01",
-    counter_at_end : "", // "2:20:01",
-    project_description: null,
+    counter_at_start : "1:20:01",
+    counter_at_end : "2:20:01",
+    project_description: "dasadsa",
     laser_usage:"",
     laser_costs_first_minute: "",
     laser_costs_last_minute: "",
@@ -567,12 +594,31 @@ export default {
         window.scrollTo(0,0);
         this.form_state = "enter_data";
     },
+    submit_form_to_roseguarden () {
+        console.log("Sending");
+    },
     calculate_and_proceed() {
         const { valid } = this.$refs.form.validate();
         if (this.valid_form == true) {
+            this.show_alert = false;
             window.scrollTo(0,0);
             this.get_calculated_costs();
             this.form_state = "submit";
+        } else {
+            this.show_alert = false;
+        }
+    },
+    check_and_submit() {
+        const { valid } = this.$refs.form_sbumit.validate();
+        if (this.valid_agreement == true) {
+            if(!this.guest_email_input && !this.valid) {
+                this.show_alert = true;
+            } else {
+                this.submit_form_to_roseguarden();
+                this.show_alert = false;
+            }
+        } else {
+            this.show_alert = true;
         }
     },
     procceed_as_user() {
