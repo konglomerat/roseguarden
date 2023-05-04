@@ -193,7 +193,7 @@
                     <v-card class="pa-3">
                         <v-card-text>
                             <div class="layout column">
-                                <h2 class="info--text">Berechnetet Kosten</h2>
+                                <h2 class="info--text">Berechnete Kosten</h2>
                             </div>
             
                             <br>
