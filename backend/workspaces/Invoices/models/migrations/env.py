@@ -6,6 +6,8 @@ import sqlalchemy_utils  # noqa: F401
 
 from alembic import context
 
+# fmt: off
+
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
