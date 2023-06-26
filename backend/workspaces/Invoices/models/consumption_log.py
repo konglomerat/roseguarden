@@ -44,6 +44,11 @@ class ConsumptionLog(db.Model):
     service_quantity = db.Column(db.Float, default=None)
     service_unit = db.Column(db.String(128), default=None)
 
+    calculated_costs_without_tax = db.Column(db.Float, default=None)
+    calculated_tax_from_costs = db.Column(db.Float, default=None)
+    calculated_costs_applied_tax_percentage = db.Column(db.Float, default=None)
+    calculated_costs_currency = db.Column(db.String(128), default=None)
+
     project_name = db.Column(db.String(128), default=None)
     project_purpose = db.Column(db.String(128), default=None)
     project_details = db.Column(db.String(128), default=None)
