@@ -38,7 +38,7 @@ class CreateConsumptionLog(Action):
     def handle(self, action, user, workspace, actionManager):
         replyActions = []
 
-        consumption_log : ConsumptionLog = ConsumptionLog()
+        consumption_log: ConsumptionLog = ConsumptionLog()
         consumption_log.consumed_as_guest = action.get("consumedAsGuest", True)
         consumption_log.guest_email = action.get("guestEmail", "")
         consumption_log.guest_is_member = action.get("guestIsMember", False)
