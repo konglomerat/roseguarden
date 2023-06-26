@@ -26,57 +26,65 @@
       </thead>
       <tbody>
         <tr
-          v-for="item in desserts"
-          :key="item.name"
+          v-for="space in spaces"
+          :key="space.name"
         >
-          <th class="text-left presence_table_header_spaces" >{{ item.name }}</th>
-          <td>
+          <th class="text-left flex presence_table_header_spaces" >
+            <span>
+              {{ space.name }}
 
-            <v-btn
-              fab
-              small
-              max-width="30px"
-              min-width="30px"
-              max-height="30px"
-              min-height="30px"
-              elevation="0"
-              v-bind="attrs"
-              v-on="on"
-              color="red"
-              style="margin-right:-25px;border: 1px solid black !important;">
-              MM
-            </v-btn>
-            <v-btn
-              fab
-              small
-              max-width="30px"
-              min-width="30px"
-              max-height="30px"
-              min-height="30px"
-              elevation="0"
-              v-bind="attrs"
-              v-on="on"
-              color="red lighten-3"
-              style="margin-right:-25px;border: 1px solid black !important;">
-              MM
-            </v-btn>
+            </span>
+            <span>
+              <v-row  style="min-height: 50px;" v-for="slot in space.slots" :key="slot.name" no-gutters align="center" justify="center">
+                {{ slot.name }}
+              </v-row>
+            </span>
 
-            <v-spacer></v-spacer>
+          </th>
+          <td v-for="(booking, bookingindex) in space.bookings" :key="bookingindex">
+            <br/>
+            <div  v-for="(bookingslot, bookingslotindex) in booking" :key="bookingslotindex">       
+                <v-row style="min-height: 50px;" no-gutters align="center">
 
-            <v-btn
-              fab
-              small
-              max-width="30px"
-              min-width="30px"
-              max-height="30px"
-              min-height="30px"
-              elevation="0"
-              v-bind="attrs"
-              v-on="on"
-              color="red"
-              style="margin-right:-25px;border: 1px solid black !important;">
-              MM
-            </v-btn>
+                    <v-col cols="1"/>
+
+                    <v-col cols="6">
+                      <v-btn
+                        v-for="(person, personindex) in bookingslot.persons" :key="personindex"    
+                        fab
+                        small
+                        max-width="30px"
+                        min-width="30px"
+                        max-height="30px"
+                        min-height="30px"
+                        elevation="0"
+                        :color="person.color + ' lighten-3'"
+                        style="margin-right:-25px;border: 1px solid black !important;">
+                        {{ person.initials }}
+                      </v-btn>
+                      <span style="margin-right: 25px;"></span>
+                  </v-col>
+
+                  <v-col cols="4">
+
+                    <v-btn
+                      v-if="!(bookingslot.isFull)"
+                      fab
+                      small
+                      max-width="30px"
+                      min-width="30px"
+                      max-height="30px"
+                      min-height="30px"
+                      color="success">
+                      <v-icon small>
+                        mdi-plus
+                      </v-icon>
+                    </v-btn>
+                  </v-col>
+                  <v-col cols="1"/>
+
+                </v-row>
+            </div>
 
           </td>
         </tr>
@@ -119,46 +127,374 @@ export default {
     days: [
       
     ],
-    desserts: [
+    spaces: [
+    {
+        name: 'Büro',
+        slots: [
+          { 
+            name: "Vormittag"
+          },
+          { 
+            name: "Nachmittag"
+          }          
+        ],
+        bookings: [
+          [
+            {
+              persons : [
+                {
+                  initials: "MD",
+                  color: "red"
+                },
+                {
+                  initials: "TT",
+                  color: "blue"
+                }
+              ]
+            },
+            {
+              persons : []
+            }
+          ],
+          [
+            {
+              persons : [
+                {
+                  initials: "MD",
+                  color: "red"
+                },
+
+              ]
+            },
+            {
+              persons : []
+            }
+          ],
+          [
+            {
+              persons : []
+            },
+            {
+              persons : [
+                {
+                  initials: "MD",
+                  color: "red"
+                },
+                {
+                  initials: "SK",
+                  color: "yellow"
+                },
+                {
+                  initials: "MZ",
+                  color: "orange"
+                }
+              ]
+            }
+          ],
+          [
+            {
+              persons : [
+                {
+                  initials: "AB",
+                  color: "green"
+                }                
+              ]
+            },
+            {
+              isFull: true,
+              persons : [
+                {
+                  initials: "MD",
+                  color: "red"
+                },
+                {
+                  initials: "SK",
+                  color: "yellow"
+                },
+                {
+                  initials: "MD",
+                  color: "red"
+                },
+                {
+                  initials: "SK",
+                  color: "yellow"
+                },
+                {
+                  initials: "AB",
+                  color: "green"
+                }
+              ]
+            }
+          ],
+          [
+            {
+              persons : [
+              ]
+            },
+            {
+              persons : [
+              {
+                  initials: "MD",
+                  color: "red"
+                },
+                {
+                  initials: "TT",
+                  color: "blue"
+                }                
+              ]
+            }
+          ],
+          [
+            {
+              persons : [
+                {
+                  initials: "TT",
+                  color: "blue"
+                }                     
+
+              ]
+            },
+            {
+              persons : [
+              {
+                  initials: "MD",
+                  color: "red"
+                },
+                {
+                  initials: "ZT",
+                  color: "grey"
+                }                
+              ]
+            }
+          ]
+        ]
+      },
       {
         name: 'Nähwerk',
-        calories: 159,
+        slots: [
+          { 
+            name: "Vormittag"
+          },
+          { 
+            name: "Nachmittag"
+          }          
+        ],
+        bookings: [
+          [
+            {
+              persons : []
+            },
+            {
+              persons : [
+                {
+                  initials: "MD",
+                  color: "red"
+                },
+                {
+                  initials: "BU",
+                  color: "yellow"
+                },                
+              ]
+            }
+          ],
+          [
+            {
+              persons : [
+               {
+                  initials: "LO",
+                  color: "blue"
+                },                   
+              ]
+            },
+            {
+              persons : [
+                {
+                  initials: "SZ",
+                  color: "red"
+                },
+                {
+                  initials: "LO",
+                  color: "blue"
+                },                
+              ]
+            }
+          ],
+          [
+            {
+              persons : []
+            },
+            {
+              persons : []
+            }
+          ],
+          [
+            {
+              persons : []
+            },
+            {
+              persons : [
+                {
+                  initials: "SZ",
+                  color: "green"
+                },                
+              ]
+            }
+          ],
+          [
+            {
+              persons : [
+                {
+                  initials: "LU",
+                  color: "red"
+                },                   
+              ]
+            },
+            {
+              persons : [
+                {
+                  initials: "LU",
+                  color: "red"
+                },                   
+
+              ]
+            }
+          ],
+          [
+            {
+              persons : []
+            },
+            {
+              persons : []
+            }
+          ]
+
+        ]        
       },
       {
         name: 'Elektronik',
-        calories: 237,
+        slots: [
+          { 
+            name: "Vormittag"
+          },
+          { 
+            name: "Nachmittag"
+          }          
+        ],
+        bookings: [
+          [
+            {
+              persons : []
+            },
+            {
+              persons : []
+            }
+          ]
+        ]
       },
       {
         name: 'Laser',
-        calories: 262,
-      },
-      {
-        name: 'Büro',
-        calories: 305,
+        slots: [
+          { 
+            name: "Vormittag"
+          },
+          { 
+            name: "Nachmittag"
+          }          
+        ],
+        bookings: [
+          [
+            {
+              persons : []
+            },
+            {
+              persons : []
+            }
+          ]
+        ]
       },
       {
         name: 'Holz',
-        calories: 356,
+        slots: [
+          { 
+            name: "Vormittag"
+          },
+          { 
+            name: "Nachmittag"
+          }          
+        ],
+        bookings: [
+          [
+            {
+              persons : []
+            },
+            {
+              persons : []
+            }
+          ]
+        ]
       },
       {
         name: 'CNC',
-        calories: 237,
-      },
-      {
-        name: 'Eclair',
-        calories: 262,
-      },
-      {
-        name: 'Cupcake',
-        calories: 305,
+        slots: [
+          { 
+            name: "Vormittag"
+          },
+          { 
+            name: "Nachmittag"
+          }          
+        ],
+        bookings: [
+          [
+            {
+              persons : []
+            },
+            {
+              persons : []
+            }
+          ]
+        ]
       },
       {
         name: 'Plastik',
-        calories: 356,
+        slots: [
+          { 
+            name: "Vormittag"
+          },
+          { 
+            name: "Nachmittag"
+          }          
+        ],
+        bookings: [
+          [
+            {
+              persons : []
+            },
+            {
+              persons : []
+            }
+          ]
+        ]
       },
       {
         name: 'Siebdruck',
-        calories: 356,
+        slots: [
+          { 
+            name: "Vormittag"
+          },
+          { 
+            name: "Nachmittag"
+          }          
+        ],
+        bookings: [
+          [
+            {
+              persons : []
+            },
+            {
+              persons : []
+            }
+          ]
+        ]
       }      
     ],
 
@@ -222,11 +558,11 @@ export default {
 <style scoped>
 
 .presence_table_header_spaces {
-  min-width:  unset;
+  min-width: 160px !important;
 }
 
 .presence_table_header_dates {
-  min-width: 250px !important;
+  min-width: 160px !important;
 }
 
 
