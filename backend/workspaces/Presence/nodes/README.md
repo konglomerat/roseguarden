@@ -1,0 +1,1 @@
+Add your node classes in this folder. Every node class should be stored in `.py` file conating the implementation of an `NodeClass` base class. Use a seperate folder of the same name for modularisation. Use the `common` folder for shared code. 
