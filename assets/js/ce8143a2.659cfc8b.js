@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[109],{2435:e=>{e.exports=JSON.parse('{"label":"facebook","permalink":"/roseguarden/blog/tags/facebook","allTagsPath":"/roseguarden/blog/tags","count":1}')}}]);
