@@ -93,6 +93,7 @@ class SpaceAccessGroup(db.Model):
     access_recharge_budget_period = db.Column(
         db.Enum(SpaceAccessRechargePeriod), default=SpaceAccessRechargePeriod.MONTHS
     )
+    access_last_group_recharge_at = db.Column(ArrowType, default=None)
     access_recharge_budget_every_periods = db.Column(db.Integer, default=4)
     access_recharge_budget_get_cutoff = db.Column(db.Boolean, default=True)
     access_recharge_budget_cutoff_max = db.Column(db.Integer, default=15)
@@ -116,6 +117,7 @@ class SpaceAccessProperties(db.Model):
     access_start_date = db.Column(ArrowType, default=arrow.utcnow)
     access_expire_date = db.Column(ArrowType, default=arrow.utcnow)
     access_last_update_date = db.Column(ArrowType, default=arrow.utcnow)
+    access_last_user_recharge_at = db.Column(ArrowType, default=None)
     last_access_at = db.Column(ArrowType, default=None)
     user = db.relationship(
         "User",

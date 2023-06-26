@@ -10,6 +10,8 @@ import sqlalchemy as sa
 import sqlalchemy_utils
 ${imports if imports else ""}
 
+# fmt: off
+
 # revision identifiers, used by Alembic.
 revision = ${repr(up_revision)}
 down_revision = ${repr(down_revision)}

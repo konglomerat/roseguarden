@@ -3,7 +3,7 @@
     <v-row dense>
       <v-col cols="1" />
       <v-col cols="10">
-        <v-subheader>Name</v-subheader>
+        <v-subheader>Name:</v-subheader>
         <v-text-field
           label="Name"
           v-model="group.name"
@@ -16,7 +16,7 @@
     <v-row dense>
       <v-col cols="1" />
       <v-col cols="10">
-        <v-subheader>Note</v-subheader>
+        <v-subheader>Note:</v-subheader>
         <v-text-field
           label="Note"
           v-model="group.note"
@@ -29,7 +29,7 @@
     <v-row dense>
       <v-col cols="1" />
       <v-col cols="10">
-        <v-subheader>Access type</v-subheader>
+        <v-subheader>Access type:</v-subheader>
         <v-select
           :items="accessTypeItems"
           v-model="group.type"
@@ -59,7 +59,23 @@
     <v-row dense v-if="groupBudgetVisibility">
       <v-col cols="1" />
       <v-col cols="10">
-        <v-subheader>Actual group budget</v-subheader>
+        <v-subheader>Start budget:</v-subheader>
+        <v-text-field
+          label="Users start budget"
+          type="number"
+          v-model="group.start_budget"
+          hide-details
+          solo
+          dense
+        ></v-text-field>
+      </v-col>
+    </v-row>
+
+    <v-row dense v-if="groupBudgetVisibility">
+      <v-col cols="1" />
+
+      <v-col cols="10">
+        <v-subheader>Actual shared group budget:</v-subheader>
         <v-text-field
           label="Group budget"
           type="number"
@@ -71,30 +87,12 @@
       </v-col>
     </v-row>
 
-    <v-row dense v-if="commonSectionsVisibility">
+
+    <v-row dense v-if="rechargeSectionsVisibility">
       <v-col cols="1" />
-      <v-col cols="3" height="100%">
-        <v-subheader>Expires</v-subheader>
-        <v-switch
-          v-model="group.expires_as_default"
-          hide-details
-          color="indigo"
-          class="mx-2"
-          style="margin-top: 0px; padding-left: 15%"
-        ></v-switch>
-      </v-col>
-      <v-col cols="7" align-end justify-end height="100%">
-        <v-subheader>Expires after</v-subheader>
-        <v-text-field
-          v-model="group.expires_after_days_default"
-          type="number"
-          suffix="days"
-          :disabled="!group.expires_as_default"
-          dense
-          solo
-          hid-details
-          label="Number"
-        ></v-text-field>
+
+      <v-col cols="6">
+        <v-subheader>Automatic budget recharge with:</v-subheader>
       </v-col>
     </v-row>
 
@@ -102,7 +100,6 @@
       <v-col cols="1" />
 
       <v-col cols="4">
-        <v-subheader>Recharge budget with</v-subheader>
         <v-text-field
           v-model="group.recharge_budget_amount"
           type="number"
@@ -114,8 +111,13 @@
         ></v-text-field>
       </v-col>
 
+      <v-col cols="1">
+        <div class="text-center" style="margin-top: 10px; align: center">
+          every
+        </div>
+      </v-col>
+
       <v-col cols="2">
-        <v-subheader>Every</v-subheader>
         <v-text-field
           v-model="group.recharge_budget_every_periods"
           dense
@@ -125,8 +127,7 @@
           reverse
         ></v-text-field>
       </v-col>
-      <v-col cols="4">
-        <v-subheader></v-subheader>
+      <v-col cols="3">
         <v-select
           :items="periodItems"
           v-model="group.recharge_budget_period"
@@ -141,7 +142,7 @@
     <v-row dense v-if="rechargeSectionsVisibility">
       <v-col cols="1" />
       <v-col cols="3" height="100%">
-        <v-subheader>Limit</v-subheader>
+        <v-subheader>Limit recharge:</v-subheader>
         <v-switch
           v-model="group.recharge_budget_gets_cutoff"
           hide-details
@@ -167,7 +168,7 @@
 
     <v-row dense wrap v-if="commonSectionsVisibility">
       <v-col cols="1" />
-      <v-subheader>On following weekdays</v-subheader>
+      <v-subheader>Access on following weekdays:</v-subheader>
     </v-row>
     <v-row
       v-if="commonSectionsVisibility"
@@ -236,8 +237,8 @@
 
     <v-row v-if="commonSectionsVisibility" dense>
       <v-col cols="1" />
-      <v-col cols="5">
-        <v-subheader>From</v-subheader>
+      <v-col cols="4">
+        <v-subheader>Access from:</v-subheader>
         <v-menu
           ref="menu1"
           v-model="menu1"
@@ -268,8 +269,14 @@
           ></v-time-picker>
         </v-menu>
       </v-col>
-      <v-col cols="5">
-        <v-subheader>To</v-subheader>
+      <v-col cols="2">
+        <v-subheader></v-subheader>
+        <div class="text-center" style="margin-top: 20px; align: center">
+          to
+        </div>
+      </v-col>
+      <v-col cols="4">
+        <v-subheader></v-subheader>
         <v-menu
           ref="menu2"
           v-model="menu2"
@@ -304,8 +311,42 @@
 
     <v-row dense v-if="commonSectionsVisibility">
       <v-col cols="1" />
+      <v-col cols="3" height="100%">
+        <v-subheader>Access expires: </v-subheader>
+        <v-switch
+          v-model="group.expires_as_default"
+          hide-details
+          color="indigo"
+          class="mx-2"
+          style="margin-top: 5px; padding-left: 15%"
+        ></v-switch>
+      </v-col>
+      <v-col cols="2">
+        <v-subheader></v-subheader>
+        <div class="text-center" style="margin-top: 10px; align: center">
+          after
+        </div>
+      </v-col>
+
+      <v-col cols="5" align-end justify-end height="100%">
+        <v-subheader></v-subheader>
+        <v-text-field
+          v-model="group.expires_after_days_default"
+          type="number"
+          suffix="days"
+          :disabled="!group.expires_as_default"
+          dense
+          solo
+          hid-details
+          label="Number"
+        ></v-text-field>
+      </v-col>
+    </v-row>
+
+    <v-row dense v-if="commonSectionsVisibility">
+      <v-col cols="1" />
       <v-col cols="10">
-        <v-subheader>To following spaces</v-subheader>
+        <v-subheader>Access to following spaces</v-subheader>
         <v-card class="mx-auto" tile dense>
           <v-list shaped>
             <v-list-item-group v-model="group.spaces" multiple>

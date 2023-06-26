@@ -130,6 +130,7 @@ class AccessGroupsList(DataView):
         else:
             ag.name = "New group"
         ag.note = "Add a note here"
+        ag.group_budget = 10
         workspace.db.session.add(ag)
         self.emitSyncCreate(ag.id, "accessGroupsList")
         print("Handle createViewEntry request for " + self.uri)
