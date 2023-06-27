@@ -58,7 +58,8 @@ class Login(Action):
 
                 if "options" in action and "redirect" in action["options"]:
                     if action["options"]["redirect"] != "":
-                        replyActions.append(webclientActions.RouteAction.generate(action["options"]["redirect"], 2))
+                        if action["options"]["redirect"] != None:
+                            replyActions.append(webclientActions.RouteAction.generate(action["options"]["redirect"], 2))
                     else:
                         replyActions.append(webclientActions.RouteAction.generate("dashboard", 2))
 
