@@ -82,9 +82,11 @@ class DoorNoPinTerminal(NodeClass):
 
             (access, _info) = has_user_access_to_space(user, node)
             if access is False:
+                logManager.info(f"Request of {user.firstname} {user.lastname} failed due to limited access")
                 return [DenyAccessAction.generate("Access denied", "")]
 
             if is_user_budget_sufficient(user) is False:
+                logManager.info(f"Request of {user.firstname} {user.lastname} failed due to insufficient budget")
                 return [DenyAccessAction.generate("Access denied", "Not enough budget")]
 
             # access gets granted

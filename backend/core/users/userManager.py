@@ -29,7 +29,9 @@ from flask_jwt_extended import create_access_token, create_refresh_token
 from core.logs import logManager
 from core.common.checksum import crc16
 from core.workspaces.workspaceHooks import WorkspaceHooks
-
+from core.users.enum import (
+    UserAuthenticatorStatus
+)
 
 class UserManager(object):
     """The UserManager ..."""
@@ -140,6 +142,9 @@ class UserManager(object):
             if u is not None:
                 if u.checkAuthenticator(authenticator_private_key) is True:
                     return u
+                else:
+                    logManager.warning(f"Failed to verify authenticator {secret_hash}. Going to remove from cache.")
+                    del self.user_authenticator_cache[secret_hash]
 
         # get the public key from the private key. This will generate a public key
         # with a default algorithm (setuped) if needed.
@@ -163,9 +168,10 @@ class UserManager(object):
         for u in user_list:
             logManager.info(f"Check {authenticator_private_key} to match for user {str(u)}")
 
-            # save the time consuming authenticator check for users in volatile cache
-            if u.email in self.user_authenticator_cache.values():
+            if u.authenticator_status != UserAuthenticatorStatus.VALID:
+                logManager.info(f"Skip user {str(u)} because authenticator status is not valid")
                 continue
+                
             # check the private key against the users authenticator
             if u.checkAuthenticator(authenticator_private_key) is True:
                 # if found store the key in the volatile cache
